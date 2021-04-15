@@ -1,5 +1,5 @@
 <template>
-	<div class="container-full">
+	<div class="container-full bg">
     <div class="row text-center">
       <div class="col">
         <h1 class="my-5">Réseau social Groupomania</h1>
@@ -11,8 +11,9 @@
       <div class="col text-center">
         <h3 class="my-5">Rejoignez-nous dès maintenant</h3>
         <div>
+           <router-link to="/signup">
           <a class="btn btn-secondary col-lg-2 col-md-4 col-6 mb-3 shadow-lg" role="button"
-            title="S'inscrire">Inscription</a>
+            title="S'inscrire">Inscription</a></router-link>
         </div>
         <div>
           <a class="btn btn-secondary col-lg-2  col-md-4 col-6 my-3 shadow-lg" role="button"
