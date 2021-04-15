@@ -16,13 +16,14 @@
             title="S'inscrire">Inscription</a></router-link>
         </div>
         <div>
+          <router-link to="/Login">
           <a class="btn btn-secondary col-lg-2  col-md-4 col-6 my-3 shadow-lg" role="button"
-            title="Connectez-vous">Connexion</a>
+            title="Connectez-vous">Connexion</a></router-link>
         </div>
       </div>
     </div>
 
-    <footer class="footer">
+    <footer class="footer py-1">
       <p>Groupomania Siege social 18 route des champs 48720 Salbinor</p>
     </footer>
   </div>
