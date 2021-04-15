@@ -2,7 +2,7 @@
     <div class="container-full">
     <div class="row mx-auto">
       <div class="col-lg-4">
-        <img class="rounded mx-auto d-block w-75" src="../../public/logos/icon-above-font.png" alt="logo entreprise">
+        <img class="rounded mx-auto d-block w-75" src="../../public/logos/icon-above-font.svg" alt="logo entreprise">
 
         <div class="row">
           <div class="col-lg-12 mb-3 text-center">
