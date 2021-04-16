@@ -12,14 +12,14 @@
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
                             <router-link to="/">
-                            <a class="nav-link active" aria-current="page">Se déconnecter</a>
+                                <a class="nav-link active" aria-current="page">Se déconnecter</a>
                             </router-link>
                         </div>
                     </div>
                 </div>
             </nav>
         </header>
-    
+
 
         <div class="container-full">
             <div class="row">
@@ -28,9 +28,11 @@
                     <img src="../../public/logos/capture.png" class="d-block w-100" alt="photo du siège d'entreprise">
                     <div class="card mt-5 col-10 mx-auto">
                         <div class="card-body ">
-                            <p class="card-text"><small class="text-muted">Le nom de la personne et la date/ heure</small>
+                            <p class="card-text"><small class="text-muted">Le nom de la personne et la date/
+                                    heure</small>
                             </p>
-                            <img src="/frontend/logos/icon-above-font.png" class="card-img-top d-block w-50 mx-auto" alt="">
+                            <img src="/frontend/logos/icon-above-font.png" class="card-img-top d-block w-50 mx-auto"
+                                alt="">
                             <h5 class="card-title">Titre</h5>
                             <p>Texte</p>
                             <label for="comment">répondre</label>
