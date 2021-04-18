@@ -13,15 +13,17 @@
           <form>
             <div class="my-3">
               <label for="InputEmail" class="form-label"></label>
-              <input type="email" class="form-control" id="InputEmail" placeholder="Email">
+              <input type="email" class="form-control" id="InputEmail" placeholder="Email" v-model="email">
               <small></small>
             </div>
             <div class="my-3">
               <label for="InputPassword" class="form-label"></label>
-              <input type="password" class="form-control" id="InputPassword" placeholder="Mot de passe">
+              <input type="password" class="form-control" id="InputPassword" placeholder="Mot de passe" v-model="password">
               <small></small>
             </div>
-            <Button :text="text"></Button>
+              <router-link to="/community">
+                <a class="btn btn-lg bg fw-bold col-12 my-5" role="button" type="submit" @click="connectLogin">{{text}}</a>
+              </router-link>
           </form>
         </div>
       </div>
@@ -33,13 +35,12 @@
 </template>
 
 <script>
-  import Button from '../components/Button'
+  import axios from "axios";
   import LogoForm from '../components/LogoForm'
   import LogoRight from '../components/LogoRight'
   export default {
     name: "FormLogin",
     components: {
-      Button,
       LogoForm,
       LogoRight
     },
@@ -48,8 +49,25 @@
         text: "Connexion",
         title: "Connectez-vous",
         LogoForm: "/logos/icon-above-font.svg",
-        logoright: "/logos/icon-left-font-monochrome-black.png"
+        logoright: "/logos/icon-left-font-monochrome-black.png",
+        email: "",
+        password: ""
       }
+    },
+    methods: {
+        connectLogin() {
+            console.log("envoi login")
+            axios.post('http://localhost:3000/api/auth/login', {
+                            email: this.email,
+                            password: this.password
+                        })
+                        .then(response => {
+                            console.log(response);
+                        })
+                        // .catch(error => {
+                        //     console.log('error')
+                        // });                     
+        }
     }
   }
 </script>

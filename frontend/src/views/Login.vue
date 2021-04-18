@@ -2,6 +2,7 @@
   <div class="container-full">
     <FormLogin />
   </div>
+  
 </template>
 
 <script>
