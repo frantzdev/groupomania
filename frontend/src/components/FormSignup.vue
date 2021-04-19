@@ -11,25 +11,40 @@
 
       <div class="row">
         <div class="col-10 mx-auto">
-          <form>
-            <div class="mb-3">
+          <form class="mb-3">
+            <div>
               <label for="InputFirstName" class="form-label"></label>
-              <input type="text" class="form-control" id="InputFirstName" placeholder="Prénom" v-model="firstname">
-              <small v-if="validFirstname(firstname)">error</small>
-
-              <label for="InputLastName" class="form-label"></label>
-              <input type="text" class="form-control" id="InputLastName" placeholder="Nom" v-model="lastname">
-              <small></small>
-
-              <label for="InputEmail" class="form-label"></label>
-              <input type="email" class="form-control" id="InputEmail" placeholder="Email" v-model="email">
-              <small></small>
-
-              <label for="InputPassword" class="form-label"></label>
-              <input type="password" autocomplete="on" class="form-control" id="InputPassword"
-                placeholder="Mot de passe" v-model="password">
-              <small></small>
+              <input type="text" class="form-control" id="InputFirstName" placeholder="Prénom" v-model="firstname"
+                v-bind:class="{'is-invalid': !validFirstname(firstname) && firstnameBlured, 'is-valid': validFirstname(firstname) && firstnameBlured}"
+                @blur="firstnameBlured = true">
+                  <small class="invalid-feedback">Prénom invalide</small>
+                  <small class="valid-feedback">Prénom valide</small>
             </div>
+            <div>
+              <label for="InputLastName" class="form-label"></label>
+              <input type="text" class="form-control" id="InputLastName" placeholder="Nom" v-model="lastname"
+                v-bind:class="{'is-invalid': !validLastname(lastname) && lastnameBlured, 'is-valid': validLastname(lastname) && lastnameBlured}"
+                @blur="lastnameBlured = true">
+                  <small class="invalid-feedback">Nom invalide</small>
+                  <small class="valid-feedback">Nom valide</small>
+            </div>
+            <div>
+              <label for="InputEmail" class="form-label"></label>
+              <input type="email" class="form-control" id="InputEmail" placeholder="Email" v-model="email"
+                v-bind:class="{'is-invalid': !validEmail(email) && emailBlured, 'is-valid': validEmail(email) && emailBlured}"
+                @blur="emailBlured = true">
+                  <small class="invalid-feedback">Email invalide</small>
+                  <small class="valid-feedback">Email valide</small>
+            </div>
+            <div>
+              <label for="InputPassword" class="form-label"></label>
+              <input type="password" autocomplete="on" class="form-control" id="InputPassword" placeholder="Mot de passe" v-model="password"
+                v-bind:class="{'is-invalid': !validPassword(password) && passwordBlured, 'is-valid': validPassword(password) && passwordBlured}"
+                @blur="passwordBlured = true">
+                  <small class="invalid-feedback">8 caractères minimum dont un chiffre et une majucule invalide</small>
+                  <small class="valid-feedback">Mot de passe valide</small>    
+            </div>
+
             <router-link to="/community">
               <a class="btn btn-lg bg fw-bold col-12 my-5" role="button" type="submit" @click="signup()">{{text}}</a>
             </router-link>
@@ -63,6 +78,10 @@
         lastname: "",
         email: "",
         password: "",
+        firstnameBlured: false,  //switch pour is-valid ou is-invalid
+        lastnameBlured: false,
+        emailBlured: false,
+        passwordBlured: false
       }
     },
 
