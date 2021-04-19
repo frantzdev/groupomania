@@ -45,9 +45,9 @@
                   <small class="valid-feedback">Mot de passe valide</small>    
             </div>
 
-            <router-link to="/community">
-              <a class="btn btn-lg bg fw-bold col-12 my-5" role="button" type="submit" @click="signup()">{{text}}</a>
-            </router-link>
+            <!-- <router-link to="/community"> -->
+              <a class="btn btn-lg bg fw-bold col-12 my-5 " role="button" type="submit" @click.prevent="submit()">{{text}}</a>
+            <!-- </router-link> -->
           </form>
         </div>
       </div>
@@ -81,28 +81,41 @@
         firstnameBlured: false,  //switch pour is-valid ou is-invalid
         lastnameBlured: false,
         emailBlured: false,
-        passwordBlured: false
+        passwordBlured: false,
+        valid: false
+
       }
     },
 
     methods: {
-      signup() {
-        console.log("envoi inscription")
-        axios.post('http://localhost:3000/api/auth/signup', {
-            firstname: this.firstname,
-            lastname: this.lastname,
-            email: this.email,
-            password: this.password
-          })
-          .then(response => {
-            console.log(response);
-          })
-        // .catch(error => {
-        //     console.log('error')
-        // });  
-
+      checkValidator() {
+       if( this.validFirstname(this.firstname) && this.validLastname(this.lastname) && this.validEmail(this.email) && this.validPassword(this.password)){
+          this.valid = true ;
+          console.log(this.validFirstname(this.firstname))
+          console.log(this.validFirstname(this.lastname))
+          console.log(this.validEmail(this.email))
+          console.log(this.validPassword(this.password))        
+          console.log(this.valid)
+        }
       },
 
+      submit(){                   
+        this.checkValidator();     
+          if(this.valid){
+              console.log(this.valid)
+              console.log("envoi inscription")
+              axios.post('http://localhost:3000/api/auth/signup', {
+                firstname: this.firstname,
+                lastname: this.lastname,
+                email: this.email,
+                password: this.password
+              }).then(response => {console.log(response);})           
+            // .catch(error => {
+            //     console.log('error')
+            // });  
+          }
+      },
+  
       validFirstname(firstname) {
         let regexFirstname = /^[A-Za-zéèê'à -]{2,30}$/;
         return regexFirstname.test(firstname);
