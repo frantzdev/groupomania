@@ -45,9 +45,7 @@
                   <small class="valid-feedback">Mot de passe valide</small>    
             </div>
 
-            <!-- <router-link to="/community"> -->
-              <a class="btn btn-lg bg fw-bold col-12 my-5 " role="button" type="submit" @click.prevent="submit()">{{text}}</a>
-            <!-- </router-link> -->
+              <a class="btn btn-lg bg fw-bold col-12 mt-5 " role="button" type="submit" @click.prevent="submit()">{{text}}</a>
           </form>
         </div>
       </div>
@@ -102,16 +100,18 @@
       submit(){                   
         this.checkValidator();     
           if(this.valid){
-              console.log(this.valid)
-              console.log("envoi inscription")
-              axios.post('http://localhost:3000/api/auth/signup', {
-                firstname: this.firstname,
-                lastname: this.lastname,
-                email: this.email,
-                password: this.password
-              }).then(response => {console.log(response);})           
+            alert('Félicitation, vous êtes bien inscrit !')
+            window.location.href="http://localhost:8080/"
+            console.log(this.valid)
+            console.log("envoi inscription")
+            axios.post('http://localhost:3000/api/auth/signup', {
+            firstname: this.firstname,
+            lastname: this.lastname,
+            email: this.email,
+            password: this.password
+            }).then(response => {console.log(response)})           
             // .catch(error => {
-            //     console.log('error')
+            //    this.res.status(404).json({ error : error})
             // });  
           }
       },

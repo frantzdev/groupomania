@@ -12,13 +12,13 @@
         <div class="col-10 mx-auto my-5">
           <form>
             <div class="my-3">
-              <label for="InputEmail" class="form-label"></label>
-              <input type="email" class="form-control" id="InputEmail" placeholder="Email" v-model="email">
+              <label for="InputEmailLogin" class="form-label"></label>
+              <input type="email" class="form-control" id="InputEmailLogin" placeholder="Email" v-model="email">
               <small></small>
             </div>
             <div class="my-3">
-              <label for="InputPassword" class="form-label"></label>
-              <input type="password" class="form-control" id="InputPassword" placeholder="Mot de passe" v-model="password">
+              <label for="InputPasswordLogin" class="form-label"></label>
+              <input type="password" class="form-control" id="InputPasswordLogin" placeholder="Mot de passe" v-model="password">
               <small></small>
             </div>
               <router-link to="/community">
