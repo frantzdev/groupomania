@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require ('jsonwebtoken');
 const models = require('../models');
 
 
@@ -28,7 +29,12 @@ exports.login = async (req, res, next) => {
           if (!bcryptCompare) { //si le hash n'est PAS identique
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           } else {  //sinon le hash est identique, je conserve else pour me repérer
-            return res.status(200).json({ message: 'Utilisateur trouvé !' });
+              return res.status(200).json({ 
+                message: 'Utilisateur trouvé !',
+                userId: userDb.id,
+                //fonction sign pour encoder un nouveau token
+                token: jwt.sign({ userId: userDb.id },'fqifhqoic,fpgququ,cqu_ycq_yds,_fyhc,4qff1q4ffijfqf2171', { expiresIn: '24h'}) 
+              });
             }   
 }; 
  
