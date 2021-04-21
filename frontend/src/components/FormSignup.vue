@@ -52,6 +52,9 @@
     </div>
     <div class="col bg text-center">
       <LogoRight :src="logoright"></LogoRight>
+      <section v-if="success">
+        <p class="fw-bold alter alert-success p-3">Félicitation l'inscription est validée, vous allez être redirigé sur le reseau social dans quelques secondes !</p>
+      </section>
     </div>
   </div>
 </template>
@@ -80,8 +83,8 @@
         lastnameBlured: false,
         emailBlured: false,
         passwordBlured: false,
-        valid: false
-
+        valid: false,
+        success: false
       }
     },
 
@@ -100,21 +103,25 @@
       submit(){                   
         this.checkValidator();     
           if(this.valid){
-            alert('Félicitation, vous êtes bien inscrit !')
-            window.location.href="http://localhost:8080/"
-            console.log(this.valid)
-            console.log("envoi inscription")
+            console.log(this.valid);
+            console.log("envoi inscription");
             axios.post('http://localhost:3000/api/auth/signup', {
             firstname: this.firstname,
             lastname: this.lastname,
             email: this.email,
             password: this.password
-            }).then(response => {console.log(response)})           
-            // .catch(error => {
-            //    this.res.status(404).json({ error : error})
-            // });  
+            })
+            .then(response => {
+            console.log(response);
+            this.success = true;
+              function displaySuccess() {
+                window.location.href="http://localhost:8080/community"
+              }
+              setTimeout(displaySuccess, 4000);
+            })          
+            .catch(error => {console.log(error)});  
           }
-      },
+        },
   
       validFirstname(firstname) {
         let regexFirstname = /^[A-Za-zéèê'à -]{2,30}$/;

@@ -18,11 +18,11 @@
             </div>
             <div class="my-3">
               <label for="InputPasswordLogin" class="form-label"></label>
-              <input type="password" class="form-control" id="InputPasswordLogin" placeholder="Mot de passe" v-model="password">
+              <input type="password" autocomplete="off" class="form-control" id="InputPasswordLogin" placeholder="Mot de passe" v-model="password">
               <small></small>
             </div>
               <router-link to="/community">
-                <a class="btn btn-lg bg fw-bold col-12 my-5" role="button" type="submit" @click="connectLogin">{{text}}</a>
+                <a class="btn btn-lg bg fw-bold col-12 my-5" role="button" type="submit" @click.prevent="connectLogin">{{text}}</a>
               </router-link>
           </form>
         </div>
@@ -30,6 +30,9 @@
     </div>
     <div class="col bg text-center">
       <LogoRight :src="logoright"></LogoRight>
+       <section v-if="errored">
+        <p class="fw-bold alter alert-danger p-3">Nous sommes désolés, votre email ou mot de passe sont incorrect. Veuillez réessayer ultérieurement.</p>
+      </section>
     </div>
   </div>
 </template>
@@ -51,23 +54,32 @@
         LogoForm: "/logos/icon-above-font.svg",
         logoright: "/logos/icon-left-font-monochrome-black.png",
         email: "",
-        password: ""
+        password: "",
+        errored: false
       }
     },
     methods: {
         connectLogin() {
             console.log("envoi login")
             axios.post('http://localhost:3000/api/auth/login', {
-                            email: this.email,
-                            password: this.password
-                        })
-                        .then(response => {
-                            console.log(response);
-                        })
-                        // .catch(error => {
-                        //     console.log('error')
-                        // });                     
+            email: this.email,
+            password: this.password
+            })
+            .then(response => {
+                console.log(response);
+                this.errored = false;
+                window.location.href="http://localhost:8080/community";
+            })
+            .catch(error => {
+            console.log(error);
+            this.errored = true;
+            function displayNone() {
+                window.location.reload()
+            }
+              setTimeout(displayNone, 4000);    
+            })
+                        
         }
-    }
+      }
   }
 </script>
