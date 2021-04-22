@@ -32,6 +32,7 @@ exports.login = async (req, res, next) => {
               return res.status(200).json({ 
                 message: 'Utilisateur trouvé !',
                 userId: userDb.id,
+                isAdmin: userDb.isAdmin,
                 //fonction sign pour encoder un nouveau token
                 token: jwt.sign({ userId: userDb.id },'fqifhqoic,fpgququ,cqu_ycq_yds,_fyhc,4qff1q4ffijfqf2171', { expiresIn: '24h'}) 
               });

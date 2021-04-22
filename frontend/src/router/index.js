@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
-import Community from '../views/Community.vue'
+import Message from '../views/Message.vue'
+import NewMessage from '../views/NewMessage.vue'
 
 Vue.use(VueRouter)
 
@@ -24,15 +25,20 @@ const routes = [
     path: '/Login',
     name: 'Login',
     component: Login
-
   },
 
   {
-    path: '/Community',
-    name: 'Community',
-    component: Community
+    path: '/Message',
+    name: 'Message',
+    component: Message
+  },
+
+  {
+    path: '/NewMessage',
+    name: 'NewMessage',
+    component: NewMessage
   }
-  
+
 ]
 
 const router = new VueRouter({

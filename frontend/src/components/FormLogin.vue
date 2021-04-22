@@ -21,8 +21,8 @@
               <input type="password" autocomplete="off" class="form-control" id="InputPasswordLogin" placeholder="Mot de passe" v-model="password">
               <small></small>
             </div>
-              <router-link to="/community">
-                <a class="btn btn-lg bg fw-bold col-12 my-5" role="button" type="submit" @click.prevent="connectLogin">{{text}}</a>
+              <router-link to="/message">
+                <a class="btn btn-lg bg fw-bold col-12 my-5" role="button" type="submit" title="valider la connexion" @click.prevent="connectLogin">{{text}}</a>
               </router-link>
           </form>
         </div>
@@ -68,7 +68,7 @@
             .then(response => {
                 console.log(response);
                 this.errored = false;
-                window.location.href="http://localhost:8080/community";
+                window.location.href="http://localhost:8080/message";
             })
             .catch(error => {
             console.log(error);

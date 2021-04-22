@@ -45,7 +45,7 @@
                   <small class="valid-feedback">Mot de passe valide</small>    
             </div>
 
-              <a class="btn btn-lg bg fw-bold col-12 mt-5 " role="button" type="submit" @click.prevent="submit()">{{text}}</a>
+              <a class="btn btn-lg bg fw-bold col-12 mt-5 " role="button" type="submit" title="envoyer le formulaire d'inscription" @click.prevent="submit()">{{text}}</a>
           </form>
         </div>
       </div>
@@ -115,7 +115,7 @@
             console.log(response);
             this.success = true;
               function displaySuccess() {
-                window.location.href="http://localhost:8080/community"
+                window.location.href="http://localhost:8080/message"
               }
               setTimeout(displaySuccess, 4000);
             })          

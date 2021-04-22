@@ -8,10 +8,10 @@ const auth= require('../middleware/auth');
 const forumController = require('../controllers/forum');
 
 //création des routes pour l'inscription et la connection
-router.get('/',auth, forumController.getAll);
-router.post('/',auth, forumController.create);
-router.put('/:id',auth, forumController.modify);
-router.delete('/:id',auth, forumController.delete);
+router.get('/',auth, forumController.getAllMessage);
+router.post('/',auth, forumController.createMessage);
+router.put('/:id',auth, forumController.modifyMessage);
+router.delete('/:id',auth, forumController.deleteMessage);
 
 //exportation du router
 module.exports = router;

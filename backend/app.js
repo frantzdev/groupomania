@@ -23,6 +23,6 @@ app.use(express.json());
 //importation des routes utilisateurs
 app.use('/api/auth', userRoutes);
 //importation des routes community
-app.use('/api/community', forumRoutes);
+app.use('/api/message', forumRoutes);
 
 module.exports = app;
