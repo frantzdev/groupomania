@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Message from '../views/Message.vue'
-import NewMessage from '../views/NewMessage.vue'
+import messagenew from '../views/messagenew'
 
 Vue.use(VueRouter)
 
@@ -34,9 +34,9 @@ const routes = [
   },
 
   {
-    path: '/NewMessage',
-    name: 'NewMessage',
-    component: NewMessage
+    path: '/messagenew',
+    name: messagenew,
+    component: messagenew
   }
 
 ]

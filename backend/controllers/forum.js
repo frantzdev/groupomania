@@ -6,11 +6,14 @@ exports.getAllMessage = (req, res, next) => {
   };
  
 /*----------------verb POST ---------------*/
-exports.createMessage = (req, res, next) => {
-  const message = models.Message.create({
+exports.createMessage = async (req, res, next) => {
+  await models.User.findOne({ where: { id: req.params.id }
+  })
+  const message = await models.Message.create({
     title: req.body.title,
     content: req.body.content,
-    attachment: req.body.attachment
+    attachment: req.body.attachment,
+    UserId: "2"
   })
   message.save()
     .then( () => res.status(201).json({ message: "créer un post sur le forum" }))

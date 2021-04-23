@@ -28,7 +28,7 @@
                         <img src="../../public/logos/capture.png" class="d-block w-100" alt="photo du siège d'entreprise">
                             
                             <div class="text-center">
-                                <router-link to="/NewMessage">
+                                <router-link to="/messagenew">
                                 <a class="btn btn-primary col-lg-3 col-md-4 col-6 mt-5 ombre" role="button"
                                 title="Créer un nouveau post">Créer un sujet</a>
                                 </router-link>
@@ -61,7 +61,11 @@
             </div>
         </div>
     </div>
+    
+    
+    
 </template>
+
 
 <script>
     export default {

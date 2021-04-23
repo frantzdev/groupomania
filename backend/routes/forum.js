@@ -9,7 +9,7 @@ const forumController = require('../controllers/forum');
 
 //création des routes pour l'inscription et la connection
 router.get('/',auth, forumController.getAllMessage);
-router.post('/',auth, forumController.createMessage);
+router.post('/new', auth, forumController.createMessage);
 router.put('/:id',auth, forumController.modifyMessage);
 router.delete('/:id',auth, forumController.deleteMessage);
 
