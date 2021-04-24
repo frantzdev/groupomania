@@ -1,8 +1,10 @@
 const models = require('../models');
 
 /*----------------verb GET ---------------*/
-exports.getAllMessage = (req, res, next) => { 
-    res.json({ message: "afficher le forum"});
+exports.getAllMessage = async (req, res, next) => { 
+  await models.Message.findAll()    
+    .then((messages) => res.status(200).json(messages))
+    .catch(error => res.status(400).json({ error: "Impossible de récupérer les messages" }));
   };
  
 /*----------------verb POST ---------------*/

@@ -37,7 +37,7 @@
 
                         <div class="card mt-5 col-10 mx-auto">
                             <div class="card-body ">
-                                <p class="card-text"><small class="text-muted">Le nom de la personne et la date/
+                                <p class="card-text"><small class="text-muted" v-for="item in test" v-bind:key="item">{{test}}Le nom de la personne et la date/
                                         heure</small>
                                 </p>
                                 <img src="/frontend/logos/icon-above-font.png" class="card-img-top d-block w-50 mx-auto"
@@ -68,11 +68,19 @@
 
 
 <script>
+import axios from 'axios';
     export default {
         data() {
             return {
                 displayComment: false,
+                test : null
             }
+        },
+        mounted () {
+            axios.get('http://localhost:3000/api/message', {
+            headers: {"Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYxOTI3NzAyNywiZXhwIjoxNjE5MzYzNDI3fQ.17eqGrGXEZR7nL2s2PUyvH7e4OVwtnMCO48Bboxu9nQ'}
+        })
+        .then(response => (console.log(this.test = response.data)))
         }
     }
 </script>
