@@ -23,7 +23,7 @@
                               <div class="form-group mt-5 col-8 mx-auto">
                                  <router-link to="/Message">
                                     <a role=button type="submit" class="btn btn-primary form-control" title="valider votre nouveau message"
-                                    @click.prevent="setMessage">Valider</a>
+                                    @click="setMessage">Valider</a>
                                 </router-link>   
                               </div>
                           </form>
@@ -47,7 +47,10 @@ export default {
     }, 
     methods: {
         setMessage() {
-            axios.post('http://localhost:3000/api/message/new', {   
+            axios.post('http://localhost:3000/api/message/new', { 
+                 headers: {"Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYxOTQzODE4OSwiZXhwIjoxNjE5NTI0NTg5fQ.HOEsoeJtqaxirdEIeqkuPTFhj4DKmPDEcD0lXrcM-To'}
+            },
+            {  
             title: this.title,
             content: this.content,
             attachment: this.attachment
