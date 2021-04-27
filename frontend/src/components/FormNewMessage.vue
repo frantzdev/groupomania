@@ -48,12 +48,13 @@ export default {
     methods: {
         setMessage() {
             axios.post('http://localhost:3000/api/message/new', { 
-                 headers: {"Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYxOTQzODE4OSwiZXhwIjoxNjE5NTI0NTg5fQ.HOEsoeJtqaxirdEIeqkuPTFhj4DKmPDEcD0lXrcM-To'}
-            },
-            {  
+            UserId: localStorage.getItem('userId'),
             title: this.title,
             content: this.content,
-            attachment: this.attachment
+            attachment: this.attachment  
+            },  
+            {    
+            headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}                   
             })
             .then(response => {
             console.log(response);

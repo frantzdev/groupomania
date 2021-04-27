@@ -83,7 +83,7 @@ import axios from 'axios';
         },
         mounted () {
             axios.get('http://localhost:3000/api/message', {
-            headers: {"Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYxOTQyNTAyOSwiZXhwIjoxNjE5NTExNDI5fQ.iCWsUcyVsz9w3bsz7A5X29KCHLrmXOIr9IMS5nhsfUw'}
+            headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
             .then(response => { 
                 this.dataBase = response.data;

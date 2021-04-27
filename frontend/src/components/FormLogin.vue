@@ -60,16 +60,13 @@
     },
     methods: {
         connectLogin() {
-            console.log("envoi login")
             axios.post('http://localhost:3000/api/auth/login', {
             email: this.email,
-            password: this.password,           
-            },
-            {                       //essai ajout token dans header de la requete 
-            headers: {"Authorization": 'Bearer wIjoxNjE5MzYwMjcyfQ.P37wgZZqqN_4_jTXMGDYwrbj2gYP50vx6jYgoM92zBw'}
+            password: this.password                    
             })
             .then(response => {
-                response.data.token;
+                localStorage.setItem('token',response.data.token);
+                localStorage.setItem('userId', response.data.userId);
                 response.data.userId;
                 console.log(response)
                 this.errored = false;

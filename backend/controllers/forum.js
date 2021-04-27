@@ -36,18 +36,15 @@ exports.getAllMessage = async (req, res, next) => {
  
 /*----------------verb POST ---------------*/
 exports.createMessage = async (req, res, next) => {
-  console.log(req.body)
-  await models.User.findOne({ where: { id: req.body.id }
-  })
-  const message = await models.Message.create({
+  const postMessage = await models.Message.create({
+    UserId: req.body.UserId,
     title: req.body.title,
     content: req.body.content,
-    attachment: req.body.attachment,
-    UserId: req.body.id
+    attachment: req.body.attachment
   })
-  message.save()
-    .then( () => res.status(201).json({ message: "créer un post sur le forum" }))
-    .catch(error => res.status(400).json({ error: error }));
+  postMessage.save()
+    .then( () => res.status(201).json({ message: "Le nouveau message est publié" }))
+    .catch(error => res.status(400).json({ error: "Erreur il n'est pas possible de poster un message" }));
   };
 
 /*----------------verb PUT ---------------*/
@@ -58,4 +55,8 @@ exports.createMessage = async (req, res, next) => {
 /*----------------verb DELETE ---------------*/
   exports.deleteMessage = (req, res, next) => {  
     res.json({ message: "Supprimer un post sur le forum"});
-   };  
+   }; 
+   
+  exports.getCreateMessage = (req, res, next) => {
+    res.json({ message: "acces auth Modifier un post sur le forum"});
+  } 
