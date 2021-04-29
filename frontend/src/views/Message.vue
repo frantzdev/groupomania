@@ -34,25 +34,18 @@
                                 title="Créer un nouveau post">Créer un sujet</a>
                                 </router-link>
                             </div>
-            
-
-                        <div class="card mt-5 col-10 mx-auto shadow-lg" v-for="item in dataBase" :key="item.title">
-                            <div class="card-body ">
-                                <p class="card-text"><small class="text-muted">{{item.firstname}} {{item.lastname}}</small>
-                                </p>
+    
+                        <div class="card mt-5 col-10 mx-auto shadow-lg" v-for="item in dataBase" :key="item.title">                      
+                            <div class="card-body">
+                                <p class="card-text"><small class="text-muted">{{item.firstname}} {{item.lastname}} {{ item.idMessage }}</small></p>
                                 <h5 class="card-title">{{ item.title }}</h5>
                                 <img :src= "item.attachment" class="card-img-top d-block w-50 mx-auto">
-                                <p>{{ item.content }}</p>
-                                <div class="form-group">
-                                    <textarea class="form-control" id="textarea" rows="3" v-if="displayComment"></textarea>
-                                    <button role="button" class="btn btn-link col-4 mt-3" for="textarea" @click="displayComment = true" v-else>Répondre</button>
-                                </div>
-                                <div class="mt-3 text-center">     
-                                    <button role="button" class="btn btn-primary col-2 mx-2" v-if="displayComment">Valider</button>
-                                    <button type="button" class="btn btn-primary col-2 mx-2" v-if="displayComment">Editer</button>
-                                    <button type="button" class="btn btn-primary col-2 mx-2" v-if="displayComment">Supprimer</button>
-                                    <button type="button" class="btn btn-primary col-2 mx-2" v-if="displayComment">Annuler</button>
-                                </div>
+                                <p>{{ item.content }}</p>     
+                                <!-- <router-link to="/Update">   -->
+                                <router-link :to="{ path: '/update?id=' + item.idMessage}">              
+                                    <button type="button" class="btn btn-primary col-2 mx-2 mt-3">Editer</button>
+                                </router-link>    
+                                    <button type="button" class="btn btn-primary col-2 mx-2 mt-3">Supprimer</button>                                                                                                                    
                             </div>
                         </div>
                     </div>
@@ -75,7 +68,9 @@ import axios from 'axios';
                             content:"",
                             attachment: "",
                             firstname: "",
-                            lastname: ""							
+                            lastname: "",
+                            idMessage: "",
+                            textAnswer: ""							
 						}
 						
 				]            
@@ -90,7 +85,8 @@ import axios from 'axios';
                 console.log(this.dataBase); 
             })
             .catch(error => console.log(error));          
-        } 
+        }
+        
     }
 </script>
 

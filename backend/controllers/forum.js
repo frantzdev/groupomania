@@ -8,7 +8,7 @@ exports.getAllMessage = async (req, res, next) => {
   } catch (error) {
     return res.status(400).json({error: 'error request'})
   }  
-  console.log(messages)
+  //console.log(messages)
          //boucle sur tout les messages
   for (let i = 0; i < messages.length; i++) {
     let user = null;
@@ -26,14 +26,15 @@ exports.getAllMessage = async (req, res, next) => {
       content: messages[i].content,
       attachment: messages[i].attachment,
       firstname: user.firstname,
-      lastname: user.lastname
+      lastname: user.lastname,
+      idMessage: messages[i].id
     })
   }
   //renvoi du tableau dans la reponse
-  console.log(data)
+  //console.log(data)
   return res.status(200).json(data)
 };
- 
+
 /*----------------verb POST ---------------*/
 exports.createMessage = async (req, res, next) => {
   const postMessage = await models.Message.create({
@@ -48,9 +49,14 @@ exports.createMessage = async (req, res, next) => {
   };
 
 /*----------------verb PUT ---------------*/
-  exports.modifyMessage = (req, res, next) => {
-    res.json({ message: "Modifier un post sur le forum"});
-  }; 
+  exports.updateMessage = async (req, res, next) => {
+    console.log(req.params.id);
+    let updateValues = {title: req.body.title, content: req.body.content, attachment: req.body.attachment}
+    await models.Message.update( updateValues, {where: { id: req.params.id}}  
+    )
+    .then( () => res.status(201).json({ message: "Le message est modifié" }))
+    .catch(error => res.status(400).json({ error: "Erreur il n'est pas possible de modifier" }));
+  };
 
 /*----------------verb DELETE ---------------*/
   exports.deleteMessage = (req, res, next) => {  

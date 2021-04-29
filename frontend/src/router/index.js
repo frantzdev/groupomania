@@ -4,7 +4,8 @@ import Home from '../views/Home.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Message from '../views/Message.vue'
-import messagenew from '../views/messagenew'
+import messagenew from '../views/messagenew.vue'
+import Update from '../views/Update.vue'
 
 Vue.use(VueRouter)
 
@@ -35,8 +36,14 @@ const routes = [
 
   {
     path: '/messagenew',
-    name: messagenew,
+    name: 'messagenew',
     component: messagenew
+  },
+
+  {
+    path: '/Update',
+    name: 'Update',
+    component: Update
   }
 
 ]

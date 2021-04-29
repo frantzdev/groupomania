@@ -11,7 +11,7 @@ const forumController = require('../controllers/forum');
 router.get('/', auth, forumController.getAllMessage);
 router.get('/new', auth, forumController.getCreateMessage);
 router.post('/new', auth, forumController.createMessage);
-router.put('/:id',auth, forumController.modifyMessage);
+router.put('/update/:id',auth, forumController.updateMessage);
 router.delete('/:id',auth, forumController.deleteMessage);
 
 //exportation du router
