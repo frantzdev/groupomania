@@ -70,7 +70,7 @@
                 response.data.userId;
                 console.log(response)
                 this.errored = false;
-                window.location.href="http://localhost:8080/message";
+                window.location.href="http://localhost:8080/messages";
             })
             .catch(error => {
             console.log(error);

@@ -34,6 +34,16 @@ exports.getAllMessage = async (req, res, next) => {
   //console.log(data)
   return res.status(200).json(data)
 };
+/*----------------verb GET one ID ---------------*/
+exports.getOneMessage = async (req, res, next) => {
+  console.log(req.params.id)
+  await models.Message.findAll({
+    attributes: ['id', 'title', 'content', 'attachment'],
+    where: { id: req.params.id }
+  })
+    .then( (response) => res.status(200).json(console.log(response)))
+    .catch(error => res.status(400).json({ error: "Erreur pour consulter le post" }));
+};
 
 /*----------------verb POST ---------------*/
 exports.createMessage = async (req, res, next) => {
@@ -59,10 +69,11 @@ exports.createMessage = async (req, res, next) => {
   };
 
 /*----------------verb DELETE ---------------*/
-  exports.deleteMessage = (req, res, next) => {  
-    res.json({ message: "Supprimer un post sur le forum"});
-   }; 
+  exports.deleteMessage = async (req, res, next) => {  
+    await models.Message.destroy({
+      where: {id: req.params.id}
+   }); 
+   res.status(204).json({ message: "Supprimer un post sur le forum"});
+  }
    
-  exports.getCreateMessage = (req, res, next) => {
-    res.json({ message: "acces auth Modifier un post sur le forum"});
-  } 
+  

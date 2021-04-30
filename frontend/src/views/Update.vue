@@ -21,7 +21,7 @@
                                       <button type="button" class="btn btn-primary mt-3">Ajouter</button>
                               </div>
                               <div class="form-group mt-5 col-8 mx-auto">
-                                 <router-link to="/Message">
+                                 <router-link to="/Messages">
                                     <a role=button type="submit" class="btn btn-primary form-control" title="valider votre nouveau message" @click="answer">Valider</a>
                                 </router-link>   
                               </div>

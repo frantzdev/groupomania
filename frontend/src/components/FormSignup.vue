@@ -115,7 +115,7 @@
             console.log(response);
             this.success = true;
               function displaySuccess() {
-                window.location.href="http://localhost:8080/message"
+                window.location.href="http://localhost:8080/messages"
               }
               setTimeout(displaySuccess, 4000);
             })          
