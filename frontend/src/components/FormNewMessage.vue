@@ -18,11 +18,11 @@
                                   <label for="NewMessageImage" class="mt-3">Ajouter une image</label>
                                   <input type="text" class="form-control mt-3" id="NewMessageImage"
                                       placeholder="Ajouter le lien de votre image" v-model="attachment">
-                                      <button type="button" class="btn btn-primary mt-3">Ajouter</button>
+                                      <button type="button" role="button" class="btn btn-primary mt-3 button">Ajouter</button>
                               </div>
                               <div class="form-group mt-5 col-8 mx-auto">
-                                 <router-link to="/Message">
-                                    <a role=button type="submit" class="btn btn-primary form-control" title="valider votre nouveau message"
+                                 <router-link to="/Messages">
+                                    <a role=button type="submit" class="btn btn-primary form-control button" title="valider votre nouveau message"
                                     @click="setMessage">Valider</a>
                                 </router-link>   
                               </div>

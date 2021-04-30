@@ -30,24 +30,23 @@
                             
                             <div class="text-center">
                                 <router-link to="/messagenew">
-                                <a class="btn btn-primary col-lg-3 col-md-4 col-6 mt-5 ombre" role="button"
+                                <a class="btn btn-primary col-lg-3 col-md-4 col-6 mt-5 button" role="button" type="button"
                                 title="Créer un nouveau post">Créer un sujet</a>
                                 </router-link>
                             </div>
     
                         <div class="card mt-5 col-10 mx-auto shadow-lg" v-for="item in dataBase" :key="item.title">   
-                            <router-link :to="{ path: '/message?id=' + item.idMessage}">                   
+                            <router-link class="text-decoration-none text-dark" :to="{ path: '/message?id=' + item.idMessage}">                   
                             <div class="card-body">
                                 <p class="card-text"><small class="text-muted">{{item.firstname}} {{item.lastname}} {{ item.idMessage }}</small></p>
                                 <h5 class="card-title">{{ item.title }}</h5>
                                 <img :src= "item.attachment" class="card-img-top d-block w-50 mx-auto">
                                 <p>{{ item.content }}</p>     
-                                <!-- <router-link to="/Update">   -->
                                 <router-link :to="{ path: '/update?id=' + item.idMessage}">              
-                                    <button type="button" class="btn btn-primary col-2 mx-2 mt-3">Editer</button>
+                                    <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button">Editer</button>
                                 </router-link>  
                                 <router-link :to="{ path: '/message?id=' + item.idMessage}">  
-                                    <button type="button" class="btn btn-primary col-2 mx-2 mt-3">Supprimer</button>   
+                                    <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button">Supprimer</button>   
                                 </router-link>                                                                                                                       
                             </div>
                             </router-link>   
@@ -89,26 +88,6 @@ import axios from 'axios';
                 console.log(this.dataBase);
             })
             .catch(error => console.log(error));          
-        },
-
-        methods: {
-            deleteMessage() {
-                axios.delete('http://localhost:3000/api/message/' + this.id, {
-                headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
-            })
-            .then(response => {
-                console.log(response);
-                })          
-            .catch(error => {console.log(error)});  
-            }
         }
-        
     }
 </script>
-
-
-<style>
-.ombre {
-    box-shadow: 5px 3px 5px rgb(113, 145, 235);
-}
-</style>

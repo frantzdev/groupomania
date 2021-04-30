@@ -22,7 +22,7 @@
               <small></small>
             </div>
               <router-link to="/message">
-                <a class="btn btn-lg bg fw-bold col-12 my-5" role="button" type="submit" title="valider la connexion" @click.prevent="connectLogin">{{text}}</a>
+                <a class="btn btn-lg bg fw-bold col-12 my-5 textColor" role="button" type="submit" title="valider la connexion" @click.prevent="connectLogin">{{text}}</a>
               </router-link>
           </form>
         </div>

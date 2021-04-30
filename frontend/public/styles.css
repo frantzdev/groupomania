@@ -1,12 +1,24 @@
 .bg {
-    background-color: #E87D22;
-  }
-.black {
-    color: #000000;
-  }
+    background-color: #004D40;
+}
 
-  .footer {
-    text-align: center;
-    font-style: italic;
-    font-weight: bold;
-  }
+.textColor {
+  color: #ffffff;
+}
+
+.button {
+    background-color: #004D40;
+    color: #ffffff;
+    border-radius: 20px;
+}
+
+.button:hover {
+  background-color: #026b5a;
+  color: #ffffff;
+}
+
+.footer {
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;
+}

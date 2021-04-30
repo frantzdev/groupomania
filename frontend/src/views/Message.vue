@@ -5,7 +5,7 @@
                     <p class="alter alert-success text-center my-5">Vous êtes sur le point de supprimer définitivement un message<br>
                     Pour confirmer votre choix, veuillez cliquer sur le bouton pour valider la suppression du message !</p>
                     <router-link to="/Messages">
-                    <a role=button type="submit" class="btn btn-primary form-control" title="valider votre nouveau message" @click="deleteMessage">Valider</a>
+                    <a role=button type="submit" class="btn btn-primary form-control button" title="valider votre nouveau message" @click="deleteMessage">Valider</a>
                     </router-link>   
                 </div>
              </div>
@@ -15,7 +15,7 @@
 <script>
 import axios from 'axios';
 export default {
-    name: 'Update',
+    name: 'Message',
 
     data() {
         return {
