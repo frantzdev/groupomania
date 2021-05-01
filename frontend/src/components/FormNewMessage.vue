@@ -5,7 +5,7 @@
                       <div class="card-body">
                           <form>
                               <div class="form-group">
-                                  <label for="NewMessageTitle" class="mt-3">Votre titre</label>
+                                  <label for="NewMessageTitle" class="mt-3">Votre titre{{file}}</label>
                                   <input type="text" class="form-control mt-3" id="NewMessageTitle"
                                       placeholder="Veuillez renseigner le titre" v-model="title">
                               </div>
@@ -15,10 +15,8 @@
                                       placeholder="Renseignez votre message içi" v-model="content"></textarea>
                               </div>
                               <div class="form-group">
-                                  <label for="NewMessageImage" class="mt-3">Ajouter une image</label>
-                                  <input type="text" class="form-control mt-3" id="NewMessageImage"
-                                      placeholder="Ajouter le lien de votre image" v-model="attachment">
-                                      <button type="button" role="button" class="btn btn-primary mt-3 button">Ajouter</button>
+                                  <label for="file" class="mt-3">Ajouter une image</label>
+                                  <input type="file" class="form-control mt-3" id="file" @change="handleFileUpload"/>
                               </div>
                               <div class="form-group mt-5 col-8 mx-auto">
                                  <router-link to="/Messages">
@@ -42,25 +40,38 @@ export default {
         return {
             title: "",
             content: "",
-            attachment: ""
+            image: "",
+            file: ""
         }
     }, 
     methods: {
         setMessage() {
-            axios.post('http://localhost:3000/api/message/new', { 
-            UserId: localStorage.getItem('userId'),
-            title: this.title,
-            content: this.content,
-            attachment: this.attachment  
-            },  
-            {    
+            let formData = new FormData();
+            formData.append('title', this.title);
+            formData.append('content', this.content);
+            formData.append('image', this.file);
+            formData.append('UserId', localStorage.getItem('userId'));
+            axios.post('http://localhost:3000/api/message/new', formData, { 
+            // UserId: localStorage.getItem('userId'),
+            // title: this.title,
+            // content: this.content,
+            // image: this.image  
+            // },  
+            // {    
             headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}                   
             })
             .then(response => {
             console.log(response);
             })          
             .catch(error => {console.log(error)});  
-        }
+        },
+
+        handleFileUpload(event){
+        this.file = event.target.files[0];
+        console.log(this.file)
+        }  
     }
 }
 </script>
+
+

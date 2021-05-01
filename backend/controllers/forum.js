@@ -24,7 +24,7 @@ exports.getAllMessage = async (req, res, next) => {
     data.push({ //push de l'objet formaté dans le tableau data
       title: messages[i].title,
       content: messages[i].content,
-      attachment: messages[i].attachment,
+      image: messages[i].image,
       firstname: user.firstname,
       lastname: user.lastname,
       idMessage: messages[i].id
@@ -38,7 +38,7 @@ exports.getAllMessage = async (req, res, next) => {
 exports.getOneMessage = async (req, res, next) => {
   console.log(req.params.id)
   await models.Message.findAll({
-    attributes: ['id', 'title', 'content', 'attachment'],
+    attributes: ['id', 'title', 'content', 'image'],
     where: { id: req.params.id }
   })
     .then( (response) => res.status(200).json(console.log(response)))
@@ -51,7 +51,8 @@ exports.createMessage = async (req, res, next) => {
     UserId: req.body.UserId,
     title: req.body.title,
     content: req.body.content,
-    attachment: req.body.attachment
+    // image: req.body.image
+    image:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   })
   postMessage.save()
     .then( () => res.status(201).json({ message: "Le nouveau message est publié" }))
@@ -61,7 +62,7 @@ exports.createMessage = async (req, res, next) => {
 /*----------------verb PUT ---------------*/
   exports.updateMessage = async (req, res, next) => {
     console.log(req.params.id);
-    let updateValues = {title: req.body.title, content: req.body.content, attachment: req.body.attachment}
+    let updateValues = {title: req.body.title, content: req.body.content, image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`}
     await models.Message.update( updateValues, {where: { id: req.params.id}}  
     )
     .then( () => res.status(201).json({ message: "Le message est modifié" }))

@@ -40,7 +40,7 @@
                             <div class="card-body">
                                 <p class="card-text"><small class="text-muted">{{item.firstname}} {{item.lastname}} {{ item.idMessage }}</small></p>
                                 <h5 class="card-title">{{ item.title }}</h5>
-                                <img :src= "item.attachment" class="card-img-top d-block w-50 mx-auto">
+                                <img :src= "item.image" class="card-img-top d-block w-50 mx-auto">
                                 <p>{{ item.content }}</p>     
                                 <router-link :to="{ path: '/update?id=' + item.idMessage}">              
                                     <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button">Editer</button>
@@ -69,7 +69,7 @@ import axios from 'axios';
 						{
 							title: "",
                             content:"",
-                            attachment: "",
+                            image: "",
                             firstname: "",
                             lastname: "",
                             idMessage: "",

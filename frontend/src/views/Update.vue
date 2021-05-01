@@ -13,18 +13,18 @@
                                   <label for="message" class="mt-3">Votre message</label>
                                   <textarea name="message" id="message" rows="4" class="form-control mt-3"
                                       placeholder="Renseignez votre message içi" v-model="content"></textarea>
-                              </div>
-                              <div class="form-group">
-                                  <label for="NewMessageImage" class="mt-3">Ajouter une image</label>
-                                  <input type="text" class="form-control mt-3" id="NewMessageImage"
-                                      placeholder="Ajouter le lien de votre image" v-model="attachment">
-                                      <button type="button" class="btn btn-primary mt-3 button" role="button">Ajouter</button>
+                              </div>                             
+                               <div class="form-group">
+                                  <label for="file" class="mt-3">Ajouter une image</label>
+                                  <input type="file" class="form-control mt-3" id="file" @change="handleFileUpload"/>
                               </div>
                               <div class="form-group mt-5 col-8 mx-auto">
                                  <router-link to="/Messages">
-                                    <a role=button type="submit" class="btn btn-primary form-control button" title="valider votre nouveau message" @click="answer">Valider</a>
+                                    <a role=button type="submit" class="btn btn-primary form-control button" title="valider votre nouveau message"
+                                    @click="answer">Valider</a>
                                 </router-link>   
                               </div>
+                              
                           </form>
                       </div>
                   </div>
@@ -41,7 +41,8 @@ export default {
         return {
             title: "",
             content: "",
-            attachment: ""
+            image: "",
+            file:""
         }
     },
 
@@ -64,20 +65,24 @@ export default {
 
     methods: {       
             answer() {
-                axios.put('http://localhost:3000/api/message/update/'+ this.id, {
-                   UserId: localStorage.getItem('userId'),
-                   title: this.title,
-                   content: this.content,
-                   attchment: this.attachment
-                },
-                {
+                let formData = new FormData();
+            formData.append('title', this.title);
+            formData.append('content', this.content);
+            formData.append('image', this.file);
+            formData.append('UserId', localStorage.getItem('userId'));
+                axios.put('http://localhost:3000/api/message/update/'+ this.id, formData,{
+             
                 headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}    
                 })
                 .then(response => {
                 console.log(response);
                 })          
                 .catch(error => {console.log(error)});  
-            }
+            },
+            handleFileUpload(event){
+        this.file = event.target.files[0];
+        console.log(this.file)
+        }  
         }
         
 }

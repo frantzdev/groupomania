@@ -67,10 +67,6 @@
     </div>
     <div class="col bg text-center">
       <LogoRight :src="logoright"></LogoRight>
-      <section v-if="errored">
-        <p class="fw-bold alter alert-danger p-3">Nous sommes désolés, votre email ou mot de passe sont incorrect.
-          Veuillez réessayer ultérieurement.</p>
-      </section>
     </div>
   </div>
 </template>

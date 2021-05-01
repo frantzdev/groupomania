@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 //importation des routes utilisateur
 const userRoutes = require('./routes/user');
@@ -19,7 +20,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 
-
+app.use('/images', express.static(path.join(__dirname, 'images')));
 //importation des routes utilisateurs
 app.use('/api/auth', userRoutes);
 //importation des routes community
