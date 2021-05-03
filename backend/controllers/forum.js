@@ -8,7 +8,7 @@ exports.getAllMessage = async (req, res, next) => {
   } catch (error) {
     return res.status(400).json({error: 'error request'})
   }  
-  //console.log(messages)
+  console.log(messages)
          //boucle sur tout les messages
   for (let i = 0; i < messages.length; i++) {
     let user = null;
@@ -27,11 +27,15 @@ exports.getAllMessage = async (req, res, next) => {
       image: messages[i].image,
       firstname: user.firstname,
       lastname: user.lastname,
-      idMessage: messages[i].id
+      isAdmin: user.isAdmin,
+      idUser: user.id,
+      messageUserId: messages[i].UserId,
+      idMessage: messages[i].id,
+      createdAt: messages[i].createdAt
     })
   }
   //renvoi du tableau dans la reponse
-  //console.log(data)
+  console.log(data)
   return res.status(200).json(data)
 };
 /*----------------verb GET one ID ---------------*/

@@ -12,7 +12,7 @@
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                         <div class="navbar-nav">        
                             <router-link to="/">
-                                <a class="nav-link active" aria-current="page">Se déconnecter</a>
+                                <a class="nav-link active" aria-current="page" @click="clearUser()">Se déconnecter</a>
                             </router-link>
                         </div>
                     </div>
@@ -35,21 +35,24 @@
                                 </router-link>
                             </div>
     
-                        <div class="card mt-5 col-10 mx-auto shadow-lg" v-for="item in dataBase" :key="item.title">   
-                            <router-link class="text-decoration-none text-dark" :to="{ path: '/message?id=' + item.idMessage}">                   
+                        <div class="card mt-5 col-10 mx-auto shadow-lg" v-for="item in dataBase" :key="item.idMessage">   
+                            <!-- <router-link class="text-decoration-none text-dark" :to="{ path: '/message?id=' + item.idMessage}">                    -->
                             <div class="card-body">
-                                <p class="card-text"><small class="text-muted">{{item.firstname}} {{item.lastname}} {{ item.idMessage }}</small></p>
+                                <p class="card-text"><small class="text-muted">id message: {{ item.idMessage }} {{item.firstname}} {{item.lastname}} le {{item.createdAt | formatDate}}</small></p>
                                 <h5 class="card-title">{{ item.title }}</h5>
-                                <img :src= "item.image" class="card-img-top d-block w-50 mx-auto">
-                                <p>{{ item.content }}</p>     
-                                <router-link :to="{ path: '/update?id=' + item.idMessage}">              
+                                <img :src= "item.image" class="card-img-top d-block w-50 mx-auto my-3">
+                                <p>{{ item.content }}</p>    
+                                 <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button">Commenter</button> 
+                                <router-link :to="{ path: '/update?id=' + item.idMessage}" v-if="item.idUser == idStorage">              
                                     <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button">Editer</button>
                                 </router-link>  
-                                <router-link :to="{ path: '/message?id=' + item.idMessage}">  
-                                    <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button">Supprimer</button>   
-                                </router-link>                                                                                                                       
+                                <!-- <router-link :to="{ path: '/message?id=' + item.idMessage}">   -->
+                                <router-link to="/Messages" v-if="item.idUser == idStorage">
+                                    <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button" @click="deleteMessage(item.idMessage)">Supprimer</button>   
+                                </router-link>  
+                                <div class="alert-danger" v-else> ce n'est pas le message de cet utilisateur </div>                                                                                                         
                             </div>
-                            </router-link>   
+                            <!-- </router-link>    -->
                         </div>
                     </div>
                     
@@ -64,7 +67,7 @@ import axios from 'axios';
     export default {
         data() {
             return {
-                displayComment: false,
+                idStorage: "",
                 dataBase: [
 						{
 							title: "",
@@ -73,21 +76,49 @@ import axios from 'axios';
                             firstname: "",
                             lastname: "",
                             idMessage: "",
-                            textAnswer: ""							
-						}
-						
+                            isAdmin: "",
+                            idUser: "",
+                            messageUserId: "",
+                            createdAt: ""
+						}						
 				]            
             }
         },
-        mounted () {
+        mounted() {
             axios.get('http://localhost:3000/api/message', {
             headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
             .then(response => { 
                 this.dataBase = response.data;
+                this.idStorage = localStorage.getItem('userId');
                 console.log(this.dataBase);
+                console.log(this.idStorage)
+                //recuperation de l'element ID dans l'adresse
+                // let url_string = window.location.href
+                // let url = new URL(url_string);
+                // let id = url.searchParams.get("id");
+                // this.id = id
+                // console.log(this.id)
             })
             .catch(error => console.log(error));          
+        },
+
+        methods: {
+             deleteMessage(recoverItemId) {
+                let deleteIdMessage = recoverItemId
+                axios.delete('http://localhost:3000/api/message/' + deleteIdMessage, {
+                headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
+            })
+            .then(response => {
+                console.log(response);
+                document.location.reload();
+                })          
+            .catch(error => {console.log(error)});  
+            },
+            
+             clearUser() {
+               return localStorage.clear();
+            }           
         }
     }
 </script>

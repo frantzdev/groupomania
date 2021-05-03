@@ -66,10 +66,10 @@ export default {
     methods: {       
             answer() {
                 let formData = new FormData();
-            formData.append('title', this.title);
-            formData.append('content', this.content);
-            formData.append('image', this.file);
-            formData.append('UserId', localStorage.getItem('userId'));
+                formData.append('title', this.title);
+                formData.append('content', this.content);
+                formData.append('image', this.file);
+                formData.append('UserId', localStorage.getItem('userId'));
                 axios.put('http://localhost:3000/api/message/update/'+ this.id, formData,{
              
                 headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}    
@@ -80,10 +80,10 @@ export default {
                 .catch(error => {console.log(error)});  
             },
             handleFileUpload(event){
-        this.file = event.target.files[0];
-        console.log(this.file)
-        }  
-        }
+            this.file = event.target.files[0];
+            console.log(this.file)
+            }  
+    }
         
 }
 </script>

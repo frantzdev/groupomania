@@ -17,14 +17,6 @@ import axios from 'axios';
 export default {
     name: 'Message',
 
-    data() {
-        return {
-            title: "",
-            content: "",
-            attachment: ""
-        }
-    },
-
     mounted() {
         axios.get('http://localhost:3000/api/message', {
         headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
