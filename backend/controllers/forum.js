@@ -75,8 +75,9 @@ exports.createMessage = async (req, res, next) => {
 
 /*----------------verb DELETE ---------------*/
   exports.deleteMessage = async (req, res, next) => {  
+    console.log(req.query)
     await models.Message.destroy({
-      where: {id: req.params.id}
+      where: {id: req.params.id ? req.params.id : req.query.id}
    }); 
    res.status(204).json({ message: "Supprimer un post sur le forum"});
   }

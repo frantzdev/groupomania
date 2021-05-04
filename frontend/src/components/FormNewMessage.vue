@@ -19,10 +19,8 @@
                                   <input type="file" class="form-control mt-3" id="file" @change="handleFileUpload"/>
                               </div>
                               <div class="form-group mt-5 col-8 mx-auto">
-                                 <router-link to="/Messages">
                                     <a role=button type="submit" class="btn btn-primary form-control button" title="valider votre nouveau message"
-                                    @click="setMessage">Valider</a>
-                                </router-link>   
+                                    @click="setMessage">Valider</a> 
                               </div>
                           </form>
                       </div>
@@ -51,17 +49,12 @@ export default {
             formData.append('content', this.content);
             formData.append('image', this.file);
             formData.append('UserId', localStorage.getItem('userId'));
-            axios.post('http://localhost:3000/api/message/new', formData, { 
-            // UserId: localStorage.getItem('userId'),
-            // title: this.title,
-            // content: this.content,
-            // image: this.image  
-            // },  
-            // {    
+            axios.post('http://localhost:3000/api/message/new', formData, {   
             headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}                   
             })
             .then(response => {
             console.log(response);
+            document.location.href="Messages"
             })          
             .catch(error => {console.log(error)});  
         },

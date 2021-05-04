@@ -33,6 +33,7 @@ exports.login = async (req, res, next) => {
                   message: 'Utilisateur trouvé !',
                   userId: userDb.id,
                   isAdmin: userDb.isAdmin,
+                  userFirstname: userDb.firstname,
                   //fonction sign pour encoder un nouveau token
                   token: jwt.sign({ userId: userDb.id },
                   'fqifhqoic,fpgququ,cqu_ycq_yds,_fyhc,4qff1q4ffijfqf2171',

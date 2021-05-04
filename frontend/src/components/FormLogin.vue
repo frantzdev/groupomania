@@ -67,6 +67,8 @@
             .then(response => {
                 localStorage.setItem('token',response.data.token);
                 localStorage.setItem('userId', response.data.userId);
+                localStorage.setItem('isAdmin', response.data.isAdmin);
+                localStorage.setItem('userFirstname', response.data.userFirstname);
                 console.log(response)
                 this.errored = false;
                 window.location.href="http://localhost:8080/messages";

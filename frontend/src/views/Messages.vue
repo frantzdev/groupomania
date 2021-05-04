@@ -3,7 +3,7 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Bonjour</a>
+                    <a class="navbar-brand" href="#">Bonjour {{userFirstname}}</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -36,23 +36,22 @@
                             </div>
     
                         <div class="card mt-5 col-10 mx-auto shadow-lg" v-for="item in dataBase" :key="item.idMessage">   
-                            <!-- <router-link class="text-decoration-none text-dark" :to="{ path: '/message?id=' + item.idMessage}">                    -->
                             <div class="card-body">
-                                <p class="card-text"><small class="text-muted">id message: {{ item.idMessage }} {{item.firstname}} {{item.lastname}} le {{item.createdAt | formatDate}}</small></p>
+                                <p class="card-text"><small class="text-muted">{{item.firstname}} {{item.lastname}} le {{item.createdAt | formatDate}}</small></p>
                                 <h5 class="card-title">{{ item.title }}</h5>
                                 <img :src= "item.image" class="card-img-top d-block w-50 mx-auto my-3">
-                                <p>{{ item.content }}</p>    
-                                 <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button">Commenter</button> 
+                                <p>{{ item.content }}</p>  
+                                <div class="form-floating"> 
+                                    <textarea class="mb-3 form-control" name="" id="" v-show="answer" @blur="answer= false" ></textarea> 
+                                </div>
+                                 <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button" @click="displayAnswerBox">Commenter</button> 
                                 <router-link :to="{ path: '/update?id=' + item.idMessage}" v-if="item.idUser == idStorage">              
                                     <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button">Editer</button>
-                                </router-link>  
-                                <!-- <router-link :to="{ path: '/message?id=' + item.idMessage}">   -->
-                                <router-link to="/Messages" v-if="item.idUser == idStorage">
-                                    <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button" @click="deleteMessage(item.idMessage)">Supprimer</button>   
-                                </router-link>  
-                                <div class="alert-danger" v-else> ce n'est pas le message de cet utilisateur </div>                                                                                                         
+                                </router-link>                                 
+                                    <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button"
+                                    @click="deleteMessage(item.idMessage)" v-if="item.idUser == idStorage || isAdmin == 'true'">Supprimer</button>     
+                                <button type="button" role="button" class="btn btn-primary col-2 mx-2 mt-3 button" v-show="answer">Valider</button>                                
                             </div>
-                            <!-- </router-link>    -->
                         </div>
                     </div>
                     
@@ -68,6 +67,9 @@ import axios from 'axios';
         data() {
             return {
                 idStorage: "",
+                isAdmin: "",
+                userFirstname: "",
+                answer: false,
                 dataBase: [
 						{
 							title: "",
@@ -76,7 +78,6 @@ import axios from 'axios';
                             firstname: "",
                             lastname: "",
                             idMessage: "",
-                            isAdmin: "",
                             idUser: "",
                             messageUserId: "",
                             createdAt: ""
@@ -91,14 +92,10 @@ import axios from 'axios';
             .then(response => { 
                 this.dataBase = response.data;
                 this.idStorage = localStorage.getItem('userId');
+                this.isAdmin = localStorage.getItem('isAdmin');
+                this.userFirstname = localStorage.getItem('userFirstname');
                 console.log(this.dataBase);
                 console.log(this.idStorage)
-                //recuperation de l'element ID dans l'adresse
-                // let url_string = window.location.href
-                // let url = new URL(url_string);
-                // let id = url.searchParams.get("id");
-                // this.id = id
-                // console.log(this.id)
             })
             .catch(error => console.log(error));          
         },
@@ -111,14 +108,17 @@ import axios from 'axios';
             })
             .then(response => {
                 console.log(response);
-                document.location.reload();
+                document.location.href="Messages"
                 })          
             .catch(error => {console.log(error)});  
             },
             
              clearUser() {
                return localStorage.clear();
+            },
+            displayAnswerBox() {
+                this.answer = true;
             }           
-        }
+        }        
     }
 </script>

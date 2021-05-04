@@ -18,11 +18,9 @@
                                   <label for="file" class="mt-3">Ajouter une image</label>
                                   <input type="file" class="form-control mt-3" id="file" @change="handleFileUpload"/>
                               </div>
-                              <div class="form-group mt-5 col-8 mx-auto">
-                                 <router-link to="/Messages">
+                              <div class="form-group mt-5 col-8 mx-auto">                               
                                     <a role=button type="submit" class="btn btn-primary form-control button" title="valider votre nouveau message"
-                                    @click="answer">Valider</a>
-                                </router-link>   
+                                    @click="answer">Valider</a> 
                               </div>
                               
                           </form>
@@ -42,8 +40,15 @@ export default {
             title: "",
             content: "",
             image: "",
-            file:""
-        }
+            file:"",
+            dataBase: [
+            {
+                title: "",
+                content: "",
+                image: ""
+            }
+        ]
+        }        
     },
 
     mounted() {
@@ -75,6 +80,7 @@ export default {
                 headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}    
                 })
                 .then(response => {
+                    document.location.href="Messages"
                 console.log(response);
                 })          
                 .catch(error => {console.log(error)});  
