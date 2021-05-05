@@ -107,9 +107,9 @@ import axios from 'axios';
                 headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
             .then(response => {
-                console.log(response);
-                document.location.href="Messages"
-                })          
+                console.log(response);             
+                document.location.href="Messages";                               
+            })          
             .catch(error => {console.log(error)});  
             },
             
@@ -118,7 +118,10 @@ import axios from 'axios';
             },
             displayAnswerBox() {
                 this.answer = true;
-            }           
+            }     
         }        
     }
 </script>
+
+
+
