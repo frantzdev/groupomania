@@ -12,7 +12,7 @@ const commentaireController = require('../controllers/commentaire');
 router.get('/', auth, commentaireController.getAllCommentaire);
 // router.get('/:id', auth, commentaireController.getOneMessage);
 router.post('/:id', auth, multer, commentaireController.createCommentaire);
-// router.delete('/:id',auth, commentaireController.deleteMessage);
+router.delete('/:id',auth, commentaireController.deleteCommentaire);
 
 //exportation du router
 module.exports = router;
