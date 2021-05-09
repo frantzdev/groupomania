@@ -4,8 +4,6 @@ import Home from '../views/Home.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Messages from '../views/Messages.vue'
-import messagenew from '../views/messagenew.vue'
-import Update from '../views/Update.vue'
 
 Vue.use(VueRouter)
 
@@ -32,20 +30,7 @@ const routes = [
     path: '/Messages',
     name: 'Messages',
     component: Messages
-  },
-
-  {
-    path: '/messagenew',
-    name: 'messagenew',
-    component: messagenew
-  },
-
-  {
-    path: '/Update',
-    name: 'Update',
-    component: Update
   }
-
 ]
 
 const router = new VueRouter({

@@ -10,8 +10,8 @@ const forumController = require('../controllers/forum');
 
 //création des routes pour l'inscription et la connection
 router.get('/', auth, forumController.getAllMessage);
-router.get('/:id', auth, forumController.getOneMessage);
-router.post('/new', auth, multer, forumController.createMessage);
+router.get('/new/:id', auth, forumController.getOneMessage);
+router.post('/', auth, multer, forumController.createMessage);
 router.put('/update/:id',auth, multer, forumController.updateMessage);
 router.delete('/:id',auth, forumController.deleteMessage);
 
