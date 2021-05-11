@@ -11,7 +11,7 @@
 
       <div class="row">
         <div class="col-10 mx-auto">
-          <form class="mb-3">
+          <form class="my-3">
             <div>
               <label for="InputFirstName" class="form-label"></label>
               <input type="text" class="form-control" id="InputFirstName" placeholder="Prénom" v-model="firstname"
@@ -44,18 +44,19 @@
                   <small class="invalid-feedback">8 caractères minimum dont un chiffre et une majucule invalide</small>
                   <small class="valid-feedback">Mot de passe valide</small>    
             </div>
-
               <a class="btn btn-lg bg fw-bold col-12 my-5 textColor" role="button" type="submit" title="envoyer le formulaire d'inscription" @click.prevent="submit()">{{text}}</a>
           </form>
         </div>
       </div>
     </div>
-    <div class="col bg text-center">
+
+    <div class="col bg text-center imageLogo">
       <LogoRight :src="logoright"></LogoRight>
-      <section v-if="success">
-        <p class="fw-bold alter alert-success p-3">Félicitation l'inscription est validée, vous allez être redirigé sur le reseau social dans quelques secondes !</p>
-      </section>
+        <section v-if="success" class="alerte">
+          <p class="fw-bold alert alert-success p-3">Félicitation l'inscription est validée, vous allez être redirigé sur la page de connexion !</p>
+        </section>
     </div>
+
   </div>
 </template>
 
@@ -74,7 +75,7 @@
         text: "Soumettre",
         title: "Inscription",
         logoform: "/logos/icon-above-font.svg",
-        logoright: "/logos/icon-left-font-monochrome-black.png",
+        logoright: "/logos/icon-left-font-monochrome-black.svg",
         firstname: "",
         lastname: "",
         email: "",
@@ -115,9 +116,9 @@
             console.log(response);
             this.success = true;
               function displaySuccess() {
-                window.location.href="http://localhost:8080/messages"
+                window.location.href="http://localhost:8080/login"
               }
-              setTimeout(displaySuccess, 4000);
+              setTimeout(displaySuccess, 3000);
             })          
             .catch(error => {console.log(error)});  
           }
@@ -142,3 +143,10 @@
     } 
   }
 </script>
+
+<style>
+.alerte {
+  position: fixed;
+  top: 200px;
+}
+</style>

@@ -59,7 +59,7 @@
                     })
                     .then(response => {
                         console.log(response);
-                        document.location.href = "Messages"
+                        document.location.href="Messages"
                     })
                     .catch(error => {
                         console.log(error)
@@ -73,46 +73,3 @@
         }
     }
 </script>
-
-<style>
-    .bloc-modale {
-        /*position du bloc*/
-        position: fixed;
-        top: 0px;
-        bottom: 0;
-        left: 0px;
-        right: 0px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1;
-    }
-
-    .overlay {
-        /*arriere plan quand pop */
-        background: rgba(0, 0, 0, 0.5);
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
-
-    .modale-card {
-        /*carte*/
-        background: #f1f1f1;
-        color: "#333333";
-        width: 35%;
-        padding: 10px 50px 10px 50px;
-        position: fixed;
-        border-radius: 20px 10px 20px 20px;
-        box-shadow: 5px 5px 50px;
-    }
-
-    .btn-modale {
-        /*bouton du popup*/
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-</style>

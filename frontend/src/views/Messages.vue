@@ -10,10 +10,11 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">        
-                            <router-link to="/">
-                                <a class="nav-link active" aria-current="page" @click="clearUser()">Se déconnecter</a>
-                            </router-link>
+                        <div class="navbar-nav">
+                            <a class="nav-link active navSupCompte" aria-current="page" title="Supprimer son compte" @click="deleteUser">Supprimer le compte</a>
+                        </div>
+                        <div class="navbar-nav">                                  
+                            <a class="nav-link active  text-decoration-underline" title="Se deconnecter" aria-current="page" @click="clearUser()" href="http://localhost:8080/">Se déconnecter</a>                        
                         </div>
                     </div>
                 </div>
@@ -23,10 +24,17 @@
 
         <div class="container-full">
             <div class="row">
-                <div class="col-md-3 bg"></div>
+                <div class="col-lg-3 bg"></div>
                                                 
-                    <div class="col-md-6">
+                    <div class="col-lg-6">
                         <img src="../../public/logos/capture.png" class="d-block w-100" alt="photo du siège d'entreprise">
+
+                                                    <!-- fenetre alert pour la suppression du compte -->
+                         <div class="alert alert-success mt-3 mx-3 d-flex justify-content-around" v-if="displayDeleteUser">                            
+                            <p>Confirmer la suppression du compte</p>
+                            <button class="btn button mx-3 col-md-2 col-4 mt-1" @click="confirmDeleteUser">Oui</button>
+                            <button class="btn button col-md-2 mt-1 col-4" @click="deleteUser">Non</button>
+                        </div>
 
                                                     <!-- créer un nouveau post -->
                             <div class="text-center">
@@ -42,23 +50,25 @@
 
                                 <h5 class="card-title">{{ item.title }}</h5>
                                 
-                                <img :src= "item.image" class="card-img-top d-block w-50 mx-auto my-3">
+                                <img :src= "item.image" class="card-img-top d-block w-75 mx-auto my-3">
                                 
                                 <p>{{ item.content }}</p>  
-                                                                <!-- affiche le modale pour poster un Commentaire -->
+                                <div class="row d-flex justify-content-center">                                <!-- affiche le modale pour poster un Commentaire -->
                                     <NewCommentaire :reveleCommentaire ="reveleCommentaire" :toggleModaleCommentaire ="toggleModaleCommentaire"/> 
-                                    <button class="btn col-2 mx-2 mt-3 button" role="button" type="button" @click="toggleModaleCommentaire(item.idMessage)"
-                                     title="Créer un nouveau commentaire">Commentaire</button>
+                                    <button class="btn col-md-3 col-8 mx-2 mt-3 button" role="button" type="button" @click="toggleModaleCommentaire(item.idMessage)"
+                                     title="Créer un nouveau commentaire">Répondre</button>
                                  
 
                                                                 <!-- affiche le modale pour modifier un Message -->
-                                    <Edit :reveleEdit ="reveleEdit" :toggleModaleEdit ="toggleModaleEdit"/> 
-                                    <button class="btn col-2 mx-2 mt-3 button" role="button" type="button" @click="toggleModaleEdit(item.idMessage)"
+                                    <Edit :reveleEdit ="reveleEdit" :toggleModaleEdit ="toggleModaleEdit" :displayEdit="displayEdit" v-if="displayEdit"/> 
+                                    <button class="btn col-md-3 col-8 mx-2 mt-3 button" role="button" type="button" @click="toggleModaleEdit(item.idMessage)"
                                     title="Créer un nouveau post" v-if="item.idUser == idStorage || isAdmin == 'true'" >Editer</button>             
 
                                                                      <!-- supprimer un message -->
-                                    <button type="button" role="button" class="btn col-2 mx-2 mt-3 button"
-                                    @click="deleteMessage(item.idMessage)" v-if="item.idUser == idStorage || isAdmin == 'true'">Supprimer</button>                                 
+                                    <button type="button" role="button" class="btn col-md-3 col-8 mx-2 mt-3 button"
+                                    @click="deleteMessage(item.idMessage)" v-if="item.idUser == idStorage || isAdmin == 'true'">Supprimer</button>  
+                                </div>
+
                             </div>
                                                                
                                                                         <!-- affiche les commentaires -->
@@ -81,7 +91,7 @@
                         </div>
                     </div>
                     
-                <div class="col-md-3 bg"></div>
+                <div class="col-lg-3 bg"></div>
             </div>
         </div>
     </div> 
@@ -101,13 +111,14 @@ import NewCommentaire from '../components/NewCommentaire'
         },
         data() {
             return {
+                displayDeleteUser: false,
+                displayEdit: false,
                 revele: false,
                 reveleEdit: false,
                 reveleCommentaire: false,
                 idStorage: "",
                 isAdmin: "",
                 userFirstname: "",
-                answer: false,
                 textArea:"",
                 dataBase: [
 						{
@@ -131,7 +142,7 @@ import NewCommentaire from '../components/NewCommentaire'
                         createdAtCommentaire : "",
                         updatedAtCommentaire : ""
                     }
-                ]            
+                ]    
             }
         },
         mounted() { /* Methode GET RECUPERATION DES MESSAGES*/
@@ -165,21 +176,25 @@ import NewCommentaire from '../components/NewCommentaire'
         },
 
 
-        methods: {             
-                            /*METHODE GET récupération d'un message avec son ID pour le modifier*/
-            toggleModaleEdit(recoverItemId){
-            let getIdMessage = recoverItemId
-            sessionStorage.setItem('id', getIdMessage)
-            axios.get('http://localhost:3000/api/message/new/' + getIdMessage, {
-                headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
-            })
-            .then(response => { 
-                this.reveleEdit = !this.reveleEdit
-                console.log(response)
-            })
-            .catch(error => console.log(error)); 
+        methods: {  
+            toggleModale(){
+			this.revele = !this.revele
             },
 
+            toggleModaleEdit(recoverItemId){
+                this.displayEdit = true;
+                let getIdMessage = recoverItemId;
+                sessionStorage.setItem('id', getIdMessage);
+                this.reveleEdit = !this.reveleEdit;
+            },
+
+                    /*logique pour recuperer l'id du Message sur lequel on souhaite poster un commentaire*/
+            toggleModaleCommentaire(recoverItemId){
+                let getIdMessage = recoverItemId
+                sessionStorage.setItem('id', getIdMessage)
+                this.reveleCommentaire = !this.reveleCommentaire
+            },
+            
                                 /* Methode DELETE SUPPRESSION D'UN MESSAGE*/
             deleteMessage(recoverItemId) {
                 let deleteIdMessage = recoverItemId
@@ -193,12 +208,6 @@ import NewCommentaire from '../components/NewCommentaire'
             .catch(error => {console.log(error)});  
             },
             
-             clearUser() {
-               return localStorage.clear();
-            },
-            displayAnswerBox() {
-                this.answer = true;
-            },
                     /* suppression d'un commentaire*/
             deleteCommentaire(recoverIdCommentaire) {
                 let deleteIdCommentaire = recoverIdCommentaire
@@ -212,14 +221,25 @@ import NewCommentaire from '../components/NewCommentaire'
             .catch(error => {console.log(error)});  
             },
 
-            toggleModale(){
-			this.revele = !this.revele
+                        /*suppression d'un compte utilisateur*/
+            confirmDeleteUser() {
+                axios.delete('http://localhost:3000/api/auth/' + localStorage.getItem('userId'), {
+                headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
+            })
+            .then(response => {
+                console.log(response);
+                localStorage.clear();             
+                document.location.href="/";                               
+            })          
+            .catch(error => {console.log(error)});  
             },
-                    /*logique pour recuperer l'id du Message sur lequel on souhaite poster un commentaire*/
-            toggleModaleCommentaire(recoverItemId){
-                let getIdMessage = recoverItemId
-                sessionStorage.setItem('id', getIdMessage)
-                this.reveleCommentaire = !this.reveleCommentaire
+                        /*vide le local storage à la déconnection d'un utilisateur*/
+             clearUser() {
+               return localStorage.clear();
+            },
+                        /*masque le fenetre de confirmation suppression utilisateur*/
+            deleteUser() {
+                this.displayDeleteUser = !this.displayDeleteUser;
             }
         }
     }
@@ -237,6 +257,19 @@ import NewCommentaire from '../components/NewCommentaire'
 }
 .alignButton {
     text-align : center;
+}
+.alert {
+    align-items: baseline;
+}
+.navSupCompte {
+    cursor: pointer;
+}
+@media all and (max-width: 768px) {
+.alert {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;  
+}
 }
 </style>
 

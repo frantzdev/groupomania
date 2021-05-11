@@ -1,36 +1,3 @@
-<!--<template>
-  <div class="container-full bg">
-     <LogoForm :src="logoform"></LogoForm>
-    <div class="row text-center">
-      <div class="col">
-        <h1 class="my-5">Réseau social Groupomania</h1>
-        <img class="mx-auto d-block w-50 my-3" src="../../public/logos/capture.png" alt="Siege de l'entreprise">
-      </div>
-    </div>
-
-    <div class="row my-5 justify-content-center">
-      <div class="col-6  bg-light text-center rounded">
-        <h3 class="my-5">Rejoignez-nous dès maintenant</h3>
-        <div>
-          <router-link to="/signup">
-            <a class="btn btn-secondary col-lg-2 col-md-4 col-6 mb-3 shadow-lg rounded-pill" role="button"
-              title="S'inscrire">Inscription</a></router-link>
-        </div>
-        <div>
-          <router-link to="/Login">
-            <a class="btn btn-secondary col-lg-2  col-md-4 col-6 my-3 shadow-lg rounded-pill" role="button"
-              title="Connectez-vous">Connexion</a></router-link>
-        </div>
-      </div>
-      <LogoRight :src="logoright"></LogoRight>
-    </div>
-
-    <footer class="footer py-1">
-      <p>Groupomania Siege social 18 route des champs 48720 Salbinor</p>
-    </footer>
-  </div>
-  
-</template>-->
 <template>
   <div class="row mx-auto">
     <div class="col-lg-4">
@@ -48,12 +15,12 @@
               <h3 class="my-5">{{text}}</h3>
               <div>
                 <router-link to="/signup">
-                  <a class="btn col-6 my-3 shadow-lg button" role="button" type="button"
+                  <a class="btn col-6 my-3 button bordure" role="button" type="button"
                     title="S'inscrire">Inscription</a></router-link>
               </div>
               <div>
                 <router-link to="/Login">
-                  <a class="btn col-6 my-3 shadow-lg button" role="button" type="button"
+                  <a class="btn col-6 my-3 button bordure" role="button" type="button"
                     title="Connectez-vous">Connexion</a></router-link>
               </div>
             </div>
@@ -65,7 +32,7 @@
         </div>
       </div>
     </div>
-    <div class="col bg text-center">
+    <div class="col bg text-center imageLogo">
       <LogoRight :src="logoright"></LogoRight>
     </div>
   </div>
@@ -82,8 +49,15 @@
       return {
         text: "Rejoignez-nous dès maintenant",
         title: "Groupomania",
-        logoright: "/logos/icon-left-font-monochrome-black.png",
+        logoright: "/logos/icon-left-font-monochrome-black.svg"
       }
     }
   }
 </script>
+
+<style>
+.bordure {
+  border: 1px solid rgb(3, 70, 50);
+  box-shadow: 5px 5px 5px rgb(1, 105, 74);
+}
+</style>

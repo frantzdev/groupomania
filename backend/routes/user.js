@@ -8,6 +8,7 @@ const userController = require('../controllers/user');
 //création des routes pour l'inscription et la connection
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
+router.delete('/:id', userController.delete);
 
 //exportation du router
 module.exports = router;

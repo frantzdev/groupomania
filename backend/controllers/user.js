@@ -40,8 +40,24 @@ exports.login = async (req, res, next) => {
                   { expiresIn: '24h'}) 
                 });
               }
-         }   
+        }   
 }; 
+
+
+       /*-----------verb DELETE-------------*/
+exports.delete = async (req, res, next) => {
+  let allUser = null;
+  try {
+    allUser = await models.User.destroy({
+      where: { id: req.params.id },
+      attributes: ['id', 'email', 'firstname', 'lastname']
+    })  
+  }
+  catch (error) {
+    return res.status(400).json({error: 'error request'});
+  }  
+  return res.status(200).json({message: "le compte est supprimé"})
+};
  
     
 
