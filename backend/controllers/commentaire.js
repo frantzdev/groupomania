@@ -48,17 +48,17 @@ exports.getAllCommentaire = async (req, res, next) => {
 
   exports.getOneCommentaire = async (req, res, next) => {
     // console.log(req.params.id)
-    await models.Commentaire.findAll({
-      attributes: ['id', 'text', 'image'],
-      where: { id: req.params.id }
-    })
-      .then( (response) => {
-        // console.log(response)
-        return res.status(200).json({message: "ok"})
+    let oneCommentaire = null;
+    try {
+      oneCommentaire = await models.Commentaire.findOne({
+        where: { id: req.params.id }
       })
-      .catch(error => {
-        return res.status(400).json({ error: "Erreur pour consulter le commentaire" })
-      })
+    }
+    catch (error) {
+      return res.status(400).json({error: 'error request'})
+    }  
+    //console.log(oneCommentaire)
+    return res.status(200).json(oneCommentaire)
   };
 
 /*----------------verb POST ---------------*/
@@ -77,6 +77,18 @@ exports.createCommentaire = async (req, res, next) => {
       postCommentaire.save()
         .then( () => res.status(201).json({ message: "Le nouveau message est publié" }))
         .catch(error => res.status(400).json({ error: "Erreur il n'est pas possible de poster un message" }));    
+};
+
+/*----------------verb PUT ---------------*/
+exports.modifyCommentaire =async (req, res, next) => {
+  const updateValues = req.file ?
+      {
+      text: req.body.text,
+      image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      } : { ...req.body }
+    await models.Commentaire.update( updateValues, {where: { id: req.params.id}})
+      .then( () => res.status(201).json({ message: "Le commentaire est modifié" }))
+      .catch(error => res.status(400).json({ error: "Erreur il n'est pas possible de modifier" }));
 };
 
 

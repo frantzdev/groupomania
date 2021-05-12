@@ -53,7 +53,7 @@
                                 <img :src= "item.image" class="card-img-top d-block w-75 mx-auto my-3">
                                 
                                 <p>{{ item.content }}</p>  
-                                <div class="row d-flex justify-content-center">                                <!-- affiche le modale pour poster un Commentaire -->
+                            <div class="row d-flex justify-content-center">   <!-- affiche le modale pour poster un Commentaire -->
                                     <NewCommentaire :reveleCommentaire ="reveleCommentaire" :toggleModaleCommentaire ="toggleModaleCommentaire"/> 
                                     <button class="btn col-md-3 col-8 mx-2 mt-3 button" role="button" type="button" @click="toggleModaleCommentaire(item.idMessage)"
                                      title="Créer un nouveau commentaire">Répondre</button>
@@ -75,17 +75,39 @@
                                 <div v-for="commentaire in dataBaseCommentaire" :key="commentaire.idCommentaire">   
                                     <div v-if="commentaire.idMessage === item.idMessage" class="textCommentaire">
 
-                                        <p>{{commentaire.firstname}} {{commentaire.lastname}} le {{commentaire.createdAtCommentaire | formatDate}}</p>
+                                        <p class="py-3"><small class="px-1 text-muted ">Réponse de {{commentaire.firstname}} {{commentaire.lastname}} le {{commentaire.createdAtCommentaire | formatDate}}</small></p>
 
-                                        <img :src= "commentaire.image" class="card-img-top d-block w-50 mx-auto my-3">
+                                        <img :src= "commentaire.image" class="card-img-top d-block w-75 mx-auto my-3">
 
-                                        <p>{{commentaire.text}}</p>
-                                        
-                                        <div class="buttonCommentaire">
-                                            <button type="button" role="button" class="btn col-1" alt="editer" title="editer"><i class="far fa-edit"></i></button>
-                                            <button type="button" role="button" class="btn col-1" alt="supprimer" title="supprimer" 
-                                            @click="deleteCommentaire(commentaire.idCommentaire)"><i class="fas fa-trash-alt"></i></button>                                           
+                                                                        <!-- formulaire pour la modification d'un commentaire -->
+                                        <p class="px-1">{{commentaire.text}}</p>
+                                        <div v-if="displayEditCommentaire">
+                                            <form class="form-group">
+                                                <textarea name="editCommentaire" id="editCommentaire" rows="3" class="form-control mt-3" v-model="editTextCommentaire"></textarea>
+                                                <div class="form-group">
+                                                    <label for="file" class="mt-3">Ajouter une image</label>
+                                                    <input type="file" class="form-control mt-3" id="file" @change="handleFileUpload" />
+                                                </div>
+                                                <div class="form-group col-4 mx-auto">
+                                                    <button type="submit" role="button" class="btn col-md-3 col-8 mx-2 mt-3 button form-control" alt="editer" title="editer"
+                                                    v-if="commentaire.iduser == idStorage || isAdmin == 'true'"
+                                                    @click="editCommentaire(commentaire.idCommentaire)">Valider</button>
+                                                </div>    
+                                             </form>
                                         </div>
+                                                                            
+                                        <div class="buttonCommentaire"> 
+                                                                            <!-- modifier un commentaire -->
+                                            <button type="button" role="button" class="btn col-1" alt="editer" title="editer"
+                                             v-if="commentaire.iduser == idStorage || isAdmin == 'true'"
+                                             @click="getOneCommentaire(commentaire.idCommentaire)"><i class="far fa-edit"></i></button>
+                                                                            <!-- supprimer un commentaire -->
+                                            <button type="button" role="button" class="btn col-1" alt="supprimer" title="supprimer"
+                                             v-if="commentaire.iduser == idStorage || isAdmin == 'true'" 
+                                             @click="deleteCommentaire(commentaire.idCommentaire)"><i class="fas fa-trash-alt"></i></button>  
+
+                                        </div>
+
                                     </div>
                                 </div>
                         </div>
@@ -111,6 +133,9 @@ import NewCommentaire from '../components/NewCommentaire'
         },
         data() {
             return {
+                editTextCommentaire: "",
+                editfileCommentaire: "",
+                displayEditCommentaire: false,
                 displayDeleteUser: false,
                 displayEdit: false,
                 revele: false,
@@ -119,7 +144,6 @@ import NewCommentaire from '../components/NewCommentaire'
                 idStorage: "",
                 isAdmin: "",
                 userFirstname: "",
-                textArea:"",
                 dataBase: [
 						{
 							title: "",
@@ -142,12 +166,14 @@ import NewCommentaire from '../components/NewCommentaire'
                         createdAtCommentaire : "",
                         updatedAtCommentaire : "",
                         firstname: "",
-                        lastname: ""
+                        lastname: "",
+                        iduser: ""
                     }
                 ]    
             }
         },
-        mounted() { /* Methode GET RECUPERATION DES MESSAGES*/
+        mounted() {            
+            /* Methode GET RECUPERATION DES MESSAGES*/
             axios.get('http://localhost:3000/api/message', {
             headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
@@ -172,7 +198,6 @@ import NewCommentaire from '../components/NewCommentaire'
             })
             .catch(error => console.log(error));        
         },
-
 
         methods: {  
             toggleModale(){
@@ -201,6 +226,39 @@ import NewCommentaire from '../components/NewCommentaire'
             })
             .then(response => {
                 console.log(response);             
+                document.location.href="Messages";                               
+            })          
+            .catch(error => {console.log(error)});  
+            },
+
+                                /* recuperation d'un message par son ID*/
+            getOneCommentaire(recoverItemId){
+                this.displayBlockEditCommentaire();
+                let getIdMessage = recoverItemId
+                axios.get('http://localhost:3000/api/commentaire/' + getIdMessage, {
+                    headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
+                })
+                .then(response => {  
+                    console.log(response.data)
+                    this.editTextCommentaire = response.data.text;
+                    this.editfileCommentaire = response.data.image;
+                })
+                .catch(error => console.log(error)); 
+                },
+
+                                /*edition d'un commentaire par son ID*/
+            editCommentaire(recoverIdCommentaire) {
+                let formData = new FormData();
+                formData.append('text', this.editTextCommentaire);
+                formData.append('image', this.editfileCommentaire);
+                formData.append('idMessage', this.idMessage);
+                formData.append('UserId', localStorage.getItem('userId'));
+                let editIdCommentaire = recoverIdCommentaire
+                axios.put('http://localhost:3000/api/commentaire/' + editIdCommentaire, formData, {
+                headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
+            })
+            .then(response => {
+                console.log(response);                          
                 document.location.href="Messages";                               
             })          
             .catch(error => {console.log(error)});  
@@ -238,7 +296,16 @@ import NewCommentaire from '../components/NewCommentaire'
                         /*masque le fenetre de confirmation suppression utilisateur*/
             deleteUser() {
                 this.displayDeleteUser = !this.displayDeleteUser;
-            }
+            },
+                        /*masque le formulaire pour l'édition d'un commentaire*/
+            displayBlockEditCommentaire() {
+                this.displayEditCommentaire = !this.displayEditCommentaire;
+            },
+                        
+             handleFileUpload(event) {
+                this.editfileCommentaire = event.target.files[0];
+                console.log(this.file)
+            },
         }
     }
 </script>
