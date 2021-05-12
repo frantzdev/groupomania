@@ -41,6 +41,7 @@
                 let formData = new FormData();
                 formData.append('text', this.textArea);
                 formData.append('image', this.file);
+                formData.append('UserId', localStorage.getItem('userId'));
                 axios.post('http://localhost:3000/api/commentaire/' + sessionStorage.getItem('id'), formData, 
                 {
                 headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}

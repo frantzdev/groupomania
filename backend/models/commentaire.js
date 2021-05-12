@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: {
           allowNull: false
         }
+      }),models.Commentaire.belongsTo(models.User, {
+        foreignKey: {
+          allowNull: false
+        }
       })
     }
   };

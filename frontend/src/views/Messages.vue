@@ -75,11 +75,11 @@
                                 <div v-for="commentaire in dataBaseCommentaire" :key="commentaire.idCommentaire">   
                                     <div v-if="commentaire.idMessage === item.idMessage" class="textCommentaire">
 
-                                        <p>nom prenom et date</p>
-
-                                        <p>{{commentaire.text}}</p>
+                                        <p>{{commentaire.firstname}} {{commentaire.lastname}} le {{commentaire.createdAtCommentaire | formatDate}}</p>
 
                                         <img :src= "commentaire.image" class="card-img-top d-block w-50 mx-auto my-3">
+
+                                        <p>{{commentaire.text}}</p>
                                         
                                         <div class="buttonCommentaire">
                                             <button type="button" role="button" class="btn col-1" alt="editer" title="editer"><i class="far fa-edit"></i></button>
@@ -140,7 +140,9 @@ import NewCommentaire from '../components/NewCommentaire'
                         idMessage: "",
                         idCommentaire: "",
                         createdAtCommentaire : "",
-                        updatedAtCommentaire : ""
+                        updatedAtCommentaire : "",
+                        firstname: "",
+                        lastname: ""
                     }
                 ]    
             }
@@ -166,11 +168,7 @@ import NewCommentaire from '../components/NewCommentaire'
             })
             .then(response => { 
                 this.dataBaseCommentaire = response.data;
-                // this.idStorage = localStorage.getItem('userId');
-                // this.isAdmin = localStorage.getItem('isAdmin');
-                // this.userFirstname = localStorage.getItem('userFirstname');
-                console.log(this.dataBaseCommentaire);
-                
+                console.log(this.dataBaseCommentaire);                
             })
             .catch(error => console.log(error));        
         },

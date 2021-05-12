@@ -9,7 +9,7 @@ exports.getAllCommentaire = async (req, res, next) => {
     } catch (error) {
       return res.status(400).json({error: 'error request'})
     }  
-    // console.log(commentaires);
+    console.log(commentaires);
     //boucle sur tout les commentaires
     for (let i = 0; i < commentaires.length; i++) {
       message = null;
@@ -19,6 +19,12 @@ exports.getAllCommentaire = async (req, res, next) => {
             id: commentaires[i].MessageId
           }
         })
+      user = null;  
+        user = await models.User.findOne({
+          where: {//recherche de l'ID qui est comparé à commentaireId présent dans chaque users
+            id: commentaires[i].UserId
+          }     
+        })   
       } catch (error) {
         return res.status(400).json({error: 'error request'})
       }
@@ -29,12 +35,12 @@ exports.getAllCommentaire = async (req, res, next) => {
         idCommentaire: commentaires[i].id,
         createdAtCommentaire : commentaires[i].createdAt,
         updatedAtCommentaire : commentaires[i].updatedAt,
-        //iduser: message.userId //clé etrangère non récupérable ? 
+        iduser: commentaires[i].UserId,
+        firstname: user.firstname,
+        lastname: user.lastname, 
       })
     }
-
     //renvoi du tableau dans la reponse
-    // console.log(data)
     return res.status(200).json(data)
   }; 
 
@@ -60,9 +66,11 @@ exports.createCommentaire = async (req, res, next) => {
   const NewCommentaire = req.file ? 
   {
   MessageId: req.params.id,  /*attention MessageId , bien mettre la majuscule pour contourner  message: 'Commentaire.MessageId cannot be null'  */
+  UserId: req.body.UserId,
   text: req.body.text,
   image:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`     
-  } : { MessageId: req.params.id, 
+  } : { MessageId: req.params.id,
+        UserId: req.body.UserId, 
         text: req.body.text
       }
     const postCommentaire = await models.Commentaire.create(NewCommentaire)
