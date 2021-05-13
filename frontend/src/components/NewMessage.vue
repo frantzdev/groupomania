@@ -59,6 +59,7 @@
                     })
                     .then(response => {
                         console.log(response);
+                        window.location.href="Messages";
                     })
                     .catch(error => {
                         console.log(error)

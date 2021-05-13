@@ -9,7 +9,7 @@
       </div>
 
       <div class="row">
-        <div class="col-10 mx-auto my-5">
+        <div class="col-10 mx-auto my-5 text-center">
           <form>
             <div class="my-3">
               <label for="InputEmailLogin" class="form-label"></label>
@@ -21,10 +21,10 @@
               <input type="password" autocomplete="off" class="form-control" id="InputPasswordLogin" placeholder="Mot de passe" v-model="password">
               <small></small>
             </div>
-              <router-link to="/message">
-                <a class="btn btn-lg bg fw-bold col-12 my-5 textColor" role="button" type="submit" title="valider la connexion" @click.prevent="connectLogin">{{text}}</a>
-              </router-link>
+                <a class="btn btn-lg bg fw-bold col-12 my-5 textColor" role="button" type="submit" title="valider la connexion" @click="connectLogin">{{text}}</a>            
           </form>
+                <a aria-label="ouvre votre boite email pour nous écrire"
+								href="mailto:contact@Groupomania.com" title="Envoyer nous un e-mail">Contactez notre équipe</a>
         </div>
       </div>
     </div>

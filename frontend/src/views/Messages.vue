@@ -1,7 +1,7 @@
 <template>
     <div>
         <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fontPolice">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">Bonjour {{userFirstname}}</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -23,10 +23,10 @@
 
 
         <div class="container-full">
-            <div class="row">
+            <div class="row backWall">
                 <div class="col-lg-3 bg"></div>
                                                 
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 fontPolice">
                         <img src="../../public/logos/capture.png" class="d-block w-100" alt="photo du siège d'entreprise">
 
                                                     <!-- fenetre alert pour la suppression du compte -->
@@ -39,7 +39,7 @@
                                                     <!-- créer un nouveau post -->
                             <div class="text-center">
                                 <NewMessage :revele ="revele" :toggleModale ="toggleModale"/>
-                                <button class="btn col-lg-3 col-md-4 col-6 mt-5 button" role="button" type="button" @click="toggleModale"
+                                <button class="btn col-lg-3 col-md-4 col-6 my-5 button" role="button" type="button" @click="toggleModale"
                                 title="Créer un nouveau post">Créer un sujet</button>
                             </div>
 
@@ -56,17 +56,17 @@
                             <div class="row d-flex justify-content-center">   <!-- affiche le modale pour poster un Commentaire -->
                                     <NewCommentaire :reveleCommentaire ="reveleCommentaire" :toggleModaleCommentaire ="toggleModaleCommentaire"/> 
                                     <button class="btn col-md-3 col-8 mx-2 mt-3 button" role="button" type="button" @click="toggleModaleCommentaire(item.idMessage)"
-                                     title="Créer un nouveau commentaire">Répondre</button>
+                                     title="Répondre au méssage">Répondre</button>
                                  
 
                                                                 <!-- affiche le modale pour modifier un Message -->
                                     <Edit :reveleEdit ="reveleEdit" :toggleModaleEdit ="toggleModaleEdit" :displayEdit="displayEdit" v-if="displayEdit"/> 
                                     <button class="btn col-md-3 col-8 mx-2 mt-3 button" role="button" type="button" @click="toggleModaleEdit(item.idMessage)"
-                                    title="Créer un nouveau post" v-if="item.idUser == idStorage || isAdmin == 'true'" >Editer</button>             
+                                    title="Modifier le message" v-if="item.idUser == idStorage || isAdmin == 'true'" >Editer</button>             
 
                                                                      <!-- supprimer un message -->
                                     <button type="button" role="button" class="btn col-md-3 col-8 mx-2 mt-3 button"
-                                    @click="deleteMessage(item.idMessage)" v-if="item.idUser == idStorage || isAdmin == 'true'">Supprimer</button>  
+                                    @click="deleteMessage(item.idMessage)" title="Supprimer le message" v-if="item.idUser == idStorage || isAdmin == 'true'">Supprimer</button>  
                                 </div>
 
                             </div>
@@ -86,7 +86,7 @@
                                                 <textarea name="editCommentaire" id="editCommentaire" rows="3" class="form-control mt-3" v-model="editTextCommentaire"></textarea>
                                                 <div class="form-group">
                                                     <label for="file" class="mt-3">Ajouter une image</label>
-                                                    <input type="file" class="form-control mt-3" id="file" @change="handleFileUpload" />
+                                                    <input type="file"  ref="fileInput" class="form-control mt-3" id="file" @change="handleFileUpload" />
                                                 </div>
                                                 <div class="form-group col-4 mx-auto">
                                                     <button type="submit" role="button" class="btn col-md-3 col-8 mx-2 mt-3 button form-control" alt="editer" title="editer"
@@ -98,11 +98,11 @@
                                                                             
                                         <div class="buttonCommentaire"> 
                                                                             <!-- modifier un commentaire -->
-                                            <button type="button" role="button" class="btn col-1" alt="editer" title="editer"
+                                            <button type="button" role="button" class="btn col-1" alt="editer" title="editer le commentaire"
                                              v-if="commentaire.iduser == idStorage || isAdmin == 'true'"
                                              @click="getOneCommentaire(commentaire.idCommentaire)"><i class="far fa-edit"></i></button>
                                                                             <!-- supprimer un commentaire -->
-                                            <button type="button" role="button" class="btn col-1" alt="supprimer" title="supprimer"
+                                            <button type="button" role="button" class="btn col-1" alt="supprimer" title="supprimer le commentaire"
                                              v-if="commentaire.iduser == idStorage || isAdmin == 'true'" 
                                              @click="deleteCommentaire(commentaire.idCommentaire)"><i class="fas fa-trash-alt"></i></button>  
 
@@ -112,7 +112,6 @@
                                 </div>
                         </div>
                     </div>
-                    
                 <div class="col-lg-3 bg"></div>
             </div>
         </div>
@@ -134,7 +133,7 @@ import NewCommentaire from '../components/NewCommentaire'
         data() {
             return {
                 editTextCommentaire: "",
-                editfileCommentaire: "",
+                //editfileCommentaire: "",
                 displayEditCommentaire: false,
                 displayDeleteUser: false,
                 displayEdit: false,
@@ -239,7 +238,7 @@ import NewCommentaire from '../components/NewCommentaire'
                     headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
                 })
                 .then(response => {  
-                    console.log(response.data)
+                    //console.log(response.data)
                     this.editTextCommentaire = response.data.text;
                     this.editfileCommentaire = response.data.image;
                 })
@@ -250,7 +249,7 @@ import NewCommentaire from '../components/NewCommentaire'
             editCommentaire(recoverIdCommentaire) {
                 let formData = new FormData();
                 formData.append('text', this.editTextCommentaire);
-                formData.append('image', this.editfileCommentaire);
+                formData.append('image', this.file);
                 formData.append('idMessage', this.idMessage);
                 formData.append('UserId', localStorage.getItem('userId'));
                 let editIdCommentaire = recoverIdCommentaire
@@ -303,9 +302,9 @@ import NewCommentaire from '../components/NewCommentaire'
             },
                         
              handleFileUpload(event) {
-                this.editfileCommentaire = event.target.files[0];
+                this.file = event.target.files[0];
                 console.log(this.file)
-            },
+            }
         }
     }
 </script>
@@ -315,26 +314,41 @@ import NewCommentaire from '../components/NewCommentaire'
 .buttonCommentaire {
     text-align: right;
 }
+
 .textCommentaire {
     vertical-align: middle;
     padding: 0px 0px 0px 10px;
     border: 1px solid rgb(176, 180, 176);
 }
+
 .alignButton {
     text-align : center;
 }
+
 .alert {
     align-items: baseline;
 }
+
+.backWall {
+    height: 1000px;
+}
+
 .navSupCompte {
     cursor: pointer;
 }
+
 @media all and (max-width: 768px) {
-.alert {
-    display: flex;
-    flex-direction: column; 
-    align-items: center;  
+    .alert {
+        display: flex;
+        flex-direction: column; 
+        align-items: center;  
+    }
 }
+
+@media all and (max-width: 991px) {
+    .backWall {
+        height: 0%;
+    }
 }
 </style>
 

@@ -85,7 +85,7 @@ exports.modifyCommentaire =async (req, res, next) => {
       {
       text: req.body.text,
       image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-      } : { ...req.body }
+      } : { text: req.body.text }
     await models.Commentaire.update( updateValues, {where: { id: req.params.id}})
       .then( () => res.status(201).json({ message: "Le commentaire est modifié" }))
       .catch(error => res.status(400).json({ error: "Erreur il n'est pas possible de modifier" }));

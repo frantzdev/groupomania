@@ -49,7 +49,7 @@
         mounted() {
             this.getMessage();
         },
-        /* Methode POST , modification d'un message*/
+        /* Methode PUT , modification d'un message*/
         methods: {
             answer() {
                 let formData = new FormData();
