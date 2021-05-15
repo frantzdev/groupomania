@@ -74,3 +74,20 @@
 .fontPolice {
   font-family: 'Open Sans', sans-serif;
 }
+
+
+      /*media query modale*/
+@media all and (max-width: 767px) {
+  .modale-card {
+    width: 90%;
+  }
+}
+
+@media all and (min-width: 768px) and (max-width: 1000px) {
+  .modale-card {
+    width: 50%;
+  }
+}
+
+
+

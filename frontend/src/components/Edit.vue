@@ -18,7 +18,7 @@
                             placeholder="Renseignez votre message ici" v-model="content"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="file" class="mt-3">Ajouter une image</label>
+                        <label for="file" class="mt-3">Modifier l'image</label>
                         <input type="file" class="form-control mt-3" id="file" @change="handleFileUpload" />
                     </div>
                     <div class="form-group mt-5 col-8 mx-auto">

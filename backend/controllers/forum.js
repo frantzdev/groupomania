@@ -81,7 +81,7 @@ exports.createMessage = async (req, res, next) => {
       title: req.body.title,
       content: req.body.content,
       image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-      } : { ...req.body }
+      } : { title: req.body.title, content: req.body.content, image: "" }
     //let updateValues = {title: req.body.title, content: req.body.content, image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`}
     await models.Message.update( updateValues, {where: { id: req.params.id}})
       .then( () => res.status(201).json({ message: "Le message est modifié" }))

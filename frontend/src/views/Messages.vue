@@ -44,7 +44,7 @@
                             </div>
 
                                                         <!-- affichage du contenant d'un post sur le mur  -->
-                        <div class="card mt-5 col-10 mx-auto shadow-lg" v-for="item in dataBase" :key="item.idMessage">   
+                        <div class="card mt-5 col-10 mx-auto borderMessage" v-for="item in dataBase" :key="item.idMessage">   
                             <div class="card-body">
                                 <p class="card-text"><small class="text-muted">{{item.firstname}} {{item.lastname}} le {{item.createdAt | formatDate}}</small></p>
 
@@ -52,8 +52,8 @@
                                 
                                 <img :src= "item.image" class="card-img-top d-block w-75 mx-auto my-3">
                                 
-                                <p>{{ item.content }}</p>  
-                            <div class="row d-flex justify-content-center">   <!-- affiche le modale pour poster un Commentaire -->
+                                <p class="pt-1">{{ item.content }}</p>  
+                                <div class="row d-flex justify-content-center">   <!-- affiche le modale pour poster un Commentaire -->
                                     <NewCommentaire :reveleCommentaire ="reveleCommentaire" :toggleModaleCommentaire ="toggleModaleCommentaire"/> 
                                     <button class="btn col-md-3 col-8 mx-2 mt-3 button" role="button" type="button" @click="toggleModaleCommentaire(item.idMessage)"
                                      title="Répondre au méssage">Répondre</button>
@@ -68,35 +68,36 @@
                                     <button type="button" role="button" class="btn col-md-3 col-8 mx-2 mt-3 button"
                                     @click="deleteMessage(item.idMessage)" title="Supprimer le message" v-if="item.idUser == idStorage || isAdmin == 'true'">Supprimer</button>  
                                 </div>
-
-                            </div>
-                                                               
+                            </div>                                  
                                                                         <!-- affiche les commentaires -->
                                 <div v-for="commentaire in dataBaseCommentaire" :key="commentaire.idCommentaire">   
-                                    <div v-if="commentaire.idMessage === item.idMessage" class="textCommentaire">
+                                    <div v-if="commentaire.idMessage === item.idMessage" class="textCommentaire" :displayIdCommentaire="commentaire.idCommentaire">{{commentaire.idCommentaire}}
 
                                         <p class="py-3"><small class="px-1 text-muted ">Réponse de {{commentaire.firstname}} {{commentaire.lastname}} le {{commentaire.createdAtCommentaire | formatDate}}</small></p>
 
                                         <img :src= "commentaire.image" class="card-img-top d-block w-75 mx-auto my-3">
 
                                                                         <!-- formulaire pour la modification d'un commentaire -->
-                                        <p class="px-1">{{commentaire.text}}</p>
+                                        <p class="px-1" v-if="!displayEditCommentaire">{{commentaire.text}}</p>
+                                        
                                         <div v-if="displayEditCommentaire">
                                             <form class="form-group">
                                                 <textarea name="editCommentaire" id="editCommentaire" rows="3" class="form-control mt-3" v-model="editTextCommentaire"></textarea>
                                                 <div class="form-group">
-                                                    <label for="file" class="mt-3">Ajouter une image</label>
-                                                    <input type="file"  ref="fileInput" class="form-control mt-3" id="file" @change="handleFileUpload" />
+                                                    <label for="file" class="mt-3">Modifier l'image</label>
+                                                    <input type="file" class="form-control mt-3" id="file" @change="handleFileUpload" />
                                                 </div>
                                                 <div class="form-group col-4 mx-auto">
-                                                    <button type="submit" role="button" class="btn col-md-3 col-8 mx-2 mt-3 button form-control" alt="editer" title="editer"
+                                                    <button type="submit" role="button" class="btn col-md-3 col-8 mx-2 mt-3 button form-control" alt="Valider editer" title="Valider editer"
                                                     v-if="commentaire.iduser == idStorage || isAdmin == 'true'"
                                                     @click="editCommentaire(commentaire.idCommentaire)">Valider</button>
                                                 </div>    
                                              </form>
                                         </div>
                                                                             
-                                        <div class="buttonCommentaire"> 
+                                        <div class="buttonCommentaire">     <!-- répondre au commentaire -->
+                                            <button type="button" role="button" class="btn col-1" alt="répondre au commentaire" @click="toggleModaleCommentaire(item.idMessage)"
+                                             title="Répondre au commentaire"><i class="fas fa-reply"></i></button>
                                                                             <!-- modifier un commentaire -->
                                             <button type="button" role="button" class="btn col-1" alt="editer" title="editer le commentaire"
                                              v-if="commentaire.iduser == idStorage || isAdmin == 'true'"
@@ -105,13 +106,13 @@
                                             <button type="button" role="button" class="btn col-1" alt="supprimer" title="supprimer le commentaire"
                                              v-if="commentaire.iduser == idStorage || isAdmin == 'true'" 
                                              @click="deleteCommentaire(commentaire.idCommentaire)"><i class="fas fa-trash-alt"></i></button>  
-
                                         </div>
 
                                     </div>
                                 </div>
+                            
                         </div>
-                    </div>
+                    </div>    
                 <div class="col-lg-3 bg"></div>
             </div>
         </div>
@@ -130,10 +131,10 @@ import NewCommentaire from '../components/NewCommentaire'
             Edit,
             NewCommentaire
         },
+        props: ['displayIdCommentaire'],
         data() {
             return {
                 editTextCommentaire: "",
-                //editfileCommentaire: "",
                 displayEditCommentaire: false,
                 displayDeleteUser: false,
                 displayEdit: false,
@@ -317,8 +318,16 @@ import NewCommentaire from '../components/NewCommentaire'
 
 .textCommentaire {
     vertical-align: middle;
-    padding: 0px 0px 0px 10px;
-    border: 1px solid rgb(176, 180, 176);
+    padding: 0px 10px 0px 10px;
+    border-color: rgb(172, 171, 171);
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
+}
+
+.borderMessage {
+    border: 2px solid rgb(172, 171, 171);
+    border-radius: 10px;
+    box-shadow: -10px -10px 10px rgb(212, 209, 209);
 }
 
 .alignButton {
