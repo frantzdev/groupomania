@@ -1,5 +1,6 @@
 const models = require('../models');
 const fs = require('fs');
+const { imageCommentaire } = require('./commentaire');
 
 /*----------------verb GET ---------------*/
 exports.getAllMessage = async (req, res, next) => { 
@@ -117,7 +118,8 @@ exports.imageMessage = async (req, res, next) => {
       where: {id: req.params.id}
     })
     .then(message => {   //puis dans ce message 
-      if(req.file) {   //si il y a un fichier
+      console.log(message.image)
+      if(message.image) {   //si il y a un fichier
         const filename = message.image.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => { //suppression de l'image par son nom 
         models.Message.destroy({      //suppression du message dans la base de donnée
@@ -127,7 +129,7 @@ exports.imageMessage = async (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
         });
       }            
-      else(!req.file)    //sinon il n'y a pas de fichier
+      else    //sinon il n'y a pas de fichier
         models.Message.destroy({      //suppression du message dans la base de donnée
         where: {id: req.params.id ? req.params.id : req.query.id}
         })

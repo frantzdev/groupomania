@@ -119,7 +119,7 @@ exports.deleteCommentaire = async (req, res, next) => {
     where: {id: req.params.id}
   })
   .then(commentaire => {   //puis dans ce commentaire 
-    if(req.file) {   //si il y a un fichier
+    if(commentaire.image) {   //si il y a un fichier
       const filename = commentaire.image.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => { //suppression de l'image par son nom 
       models.Commentaire.destroy({      //suppression du commentaire dans la base de donnée
@@ -129,7 +129,7 @@ exports.deleteCommentaire = async (req, res, next) => {
       .catch(error => res.status(400).json({ error }));
       });
     }            
-    else(!req.file)    //sinon il n'y a pas de fichier
+    else    //sinon il n'y a pas de fichier
       models.Commentaire.destroy({      //suppression du commentaire dans la base de donnée
       where: {id: req.params.id ? req.params.id : req.query.id}
       })
