@@ -48,12 +48,15 @@
             })
             .then(response => {
                 console.log(response); 
+                this.toggleModaleCommentaire();
+                window.reload.href="Messages";
             })          
             .catch(error => {console.log(error)});  
             },  
+
             handleFileUpload(event){
-            this.file = event.target.files[0];
-            console.log(this.file)
+                this.file = event.target.files[0];
+                console.log(this.file)
             },
         }
     }

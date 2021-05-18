@@ -21,11 +21,14 @@
                         <label for="file" class="mt-3">Modifier l'image</label>
                         <input type="file" class="form-control mt-3" id="file" @change="handleFileUpload" />
                     </div>
-                    <div class="form-group mt-5 col-8 mx-auto">
+                    <div class="form-group mt-3 col-8 mx-auto">
+                        <button type="submit" role="button" class="btn form-control button" title="Supprimer l'image et revenir au mur"
+                            @click="delImageMessage()">Supprimer l'image</button>
+                        </div>
+                    <div class="form-group mt-3 col-8 mx-auto">
                         <button role=button type="submit" class="btn form-control button"
-                            title="valider votre nouveau message" @click="answer">Valider</button>
+                         title="valider votre nouveau message" @click="answer">Valider</button>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -36,7 +39,7 @@
     import axios from 'axios';
     export default {
         name: 'Edit',
-        props: ['reveleEdit', 'toggleModaleEdit', 'displayEdit'],
+        props: ['reveleEdit'],
 
         data() {
             return {
@@ -49,6 +52,7 @@
         mounted() {
             this.getMessage();
         },
+      
         /* Methode PUT , modification d'un message*/
         methods: {
             answer() {
@@ -64,36 +68,50 @@
                 })
                 .then(response => {
                     console.log(response);
-                    document.location.href="Messages"
+                    this.toggleModaleEdits();
                 })
                 .catch(error => {
-                    console.log(error)
+                    console.log(error);
                 });
             },
+        /*Methode PUT , suppression de l'image*/
+            delImageMessage() {             
+                axios.put('http://localhost:3000/api/message/image/' + sessionStorage.getItem('id'), 
+                {
+                title: this.title,
+                content: this.content,
+                image: this.file
+                },
+                {headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
+                })
+                .then(response => {
+                    console.log(response);
+                })          
+                .catch(error => {console.log(error)});  
+            }, 
 
-            /* recuperation d'un message par son ID*/
-            getMessage(){
-                axios.get('http://localhost:3000/api/message/new/' + sessionStorage.getItem('id'), {
+        /* Methode GET, recuperation d'un message par son ID*/
+            getMessage() {
+                axios.get('http://localhost:3000/api/message/' + sessionStorage.getItem('id'), {
                     headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
                 })
                 .then(response => {  
-                    console.log(response.data.id)
-                    console.log(this)
+                    // console.log(response.data.id);
+                    // console.log(this);
                     this.title = response.data.title;
                     this.content = response.data.content;
                     this.file = response.data.image;
                 })
                 .catch(error => console.log(error)); 
-                },
+            },
 
             handleFileUpload(event) {
                 this.file = event.target.files[0];
-                console.log(this.file)
+                // console.log(this.file);
             },
-                        /*test*/
-            toggleModaleEdits() {
-                window.location.href="Messages"
-                // this.displayEdit = false
+                        
+            toggleModaleEdits() {  
+            window.location.href="Messages";            
             }
         }
     }

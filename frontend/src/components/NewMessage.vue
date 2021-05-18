@@ -53,17 +53,17 @@
                 formData.append('image', this.file);
                 formData.append('UserId', localStorage.getItem('userId'));
                 axios.post('http://localhost:3000/api/message/', formData, {
-                        headers: {
-                            "Authorization": 'Bearer' + " " + localStorage.getItem('token')
-                        }
-                    })
-                    .then(response => {
-                        console.log(response);
-                        window.location.href="Messages";
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    });
+                    headers: {
+                        "Authorization": 'Bearer' + " " + localStorage.getItem('token')
+                    }
+                })
+                .then(response => {
+                    console.log(response);
+                    window.location.href="Messages";
+                })
+                .catch(error => {
+                    console.log(error)
+                });
             },
 
             handleFileUpload(event) {

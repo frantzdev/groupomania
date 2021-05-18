@@ -74,14 +74,13 @@
                 window.location.href="http://localhost:8080/messages";
             })
             .catch(error => {
-            console.log(error);
-            this.errored = true;
-            function displayNone() {
-                window.location.reload()
-            }
-              setTimeout(displayNone, 4000);    
-            })
-                        
+                console.log(error);
+                this.errored = true;
+                function displayNone() {
+                    window.location.reload()
+                }
+                setTimeout(displayNone, 4000);    
+            })                       
         }
       }
   }

@@ -14,6 +14,7 @@ router.get('/:id', auth, commentaireController.getOneCommentaire);
 router.post('/:id', auth, multer, commentaireController.createCommentaire);
 router.put('/:id', auth, multer, commentaireController.modifyCommentaire);
 router.delete('/:id',auth, commentaireController.deleteCommentaire);
+router.put('/image/:id',auth, commentaireController.imageCommentaire);
 
 //exportation du router
 module.exports = router;

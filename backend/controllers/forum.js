@@ -81,12 +81,34 @@ exports.createMessage = async (req, res, next) => {
       title: req.body.title,
       content: req.body.content,
       image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-      } : { title: req.body.title, content: req.body.content, image: "" }
+      } : { title: req.body.title, content: req.body.content }
     //let updateValues = {title: req.body.title, content: req.body.content, image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`}
     await models.Message.update( updateValues, {where: { id: req.params.id}})
       .then( () => res.status(201).json({ message: "Le message est modifié" }))
       .catch(error => res.status(400).json({ error: "Erreur il n'est pas possible de modifier" }));
   };
+
+/*-------------------verb PUT IMAGE---------------*/
+exports.imageMessage = async (req, res, next) => {
+  await models.Message.findOne({  //recherche du message
+    where: {id: req.params.id}
+  })
+  .then(message => {              //puis dans ce message 
+      const filename = message.image.split('/images/')[1];
+      fs.unlink(`images/${filename}`, () => { //suppression de l'image par son nom 
+        const updateImage = {
+            title: req.body.title,
+            content: req.body.content,
+            image: null
+          }
+          console.log(updateImage)
+          models.Message.update( updateImage, {where: { id: req.params.id}})
+      })
+    .then(() => res.status(201).json({ message: 'Supprimer image du message'}))
+    .catch(error => res.status(400).json({ error }));
+  }) 
+  .catch(error => res.status(500).json({ error }));
+};  
 
 /*----------------verb DELETE ---------------*/
   exports.deleteMessage = async (req, res, next) => {  
@@ -94,19 +116,24 @@ exports.createMessage = async (req, res, next) => {
     await models.Message.findOne({  //recherche du message que l'on souhaite supprimer
       where: {id: req.params.id}
     })
-    .then(message => {              //puis dans ce message 
-      const filename = message.image.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => { //suppression de l'image par son nom 
+    .then(message => {   //puis dans ce message 
+      if(req.file) {   //si il y a un fichier
+        const filename = message.image.split('/images/')[1];
+        fs.unlink(`images/${filename}`, () => { //suppression de l'image par son nom 
         models.Message.destroy({      //suppression du message dans la base de donnée
         where: {id: req.params.id ? req.params.id : req.query.id}
         })
-      });
-        models.Commentaire.destroy({
-        where: {messageId: req.params.id ? req.params.id : req.query.id}
-        }) 
-    .then(() => res.status(200).json({ message: 'Supprimer un post et les commentaires sur le forum'}))
-    .catch(error => res.status(400).json({ error }));
-    }) 
+        .then(() => res.status(200).json({ message: 'Supprimer un message avec une image'}))
+        .catch(error => res.status(400).json({ error }));
+        });
+      }            
+      else(!req.file)    //sinon il n'y a pas de fichier
+        models.Message.destroy({      //suppression du message dans la base de donnée
+        where: {id: req.params.id ? req.params.id : req.query.id}
+        })
+        .then(() => res.status(200).json({ message: 'Supprimer un message sans image'}))
+        .catch(error => res.status(400).json({ error }));    
+    })
     .catch(error => res.status(500).json({ error }));
   };  
 

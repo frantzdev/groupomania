@@ -36,7 +36,7 @@ exports.login = async (req, res, next) => {
                   userFirstname: userDb.firstname,
                   //fonction sign pour encoder un nouveau token
                   token: jwt.sign({ userId: userDb.id },
-                  'fqifhqoic,fpgququ,cqu_ycq_yds,_fyhc,4qff1q4ffijfqf2171',
+                  process.env.JWT_TOKEN,
                   { expiresIn: '24h'}) 
                 });
               }

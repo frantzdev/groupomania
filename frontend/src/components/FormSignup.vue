@@ -41,7 +41,7 @@
               <input type="password" autocomplete="on" class="form-control" id="InputPassword" placeholder="Mot de passe" v-model="password"
                 v-bind:class="{'is-invalid': !validPassword(password) && passwordBlured, 'is-valid': validPassword(password) && passwordBlured}"
                 @blur="passwordBlured = true">
-                  <small class="invalid-feedback">8 caractères minimum dont un chiffre et une majucule invalide</small>
+                  <small class="invalid-feedback">Requis 8 caractères minimum dont un chiffre et une majucule</small>
                   <small class="valid-feedback">Mot de passe valide</small>    
             </div>
               <a class="btn btn-lg bg fw-bold col-12 my-5 textColor" role="button" type="submit" title="envoyer le formulaire d'inscription" @click.prevent="submit()">{{text}}</a>
@@ -93,11 +93,11 @@
       checkValidator() {
        if( this.validFirstname(this.firstname) && this.validLastname(this.lastname) && this.validEmail(this.email) && this.validPassword(this.password)){
           this.valid = true ;
-          console.log(this.validFirstname(this.firstname))
-          console.log(this.validFirstname(this.lastname))
-          console.log(this.validEmail(this.email))
-          console.log(this.validPassword(this.password))        
-          console.log(this.valid)
+          // console.log(this.validFirstname(this.firstname))
+          // console.log(this.validFirstname(this.lastname))
+          // console.log(this.validEmail(this.email))
+          // console.log(this.validPassword(this.password))        
+          // console.log(this.valid)
         }
       },
 
@@ -113,8 +113,8 @@
             password: this.password
             })
             .then(response => {
-            console.log(response);
-            this.success = true;
+              console.log(response);
+              this.success = true;
               function displaySuccess() {
                 window.location.href="http://localhost:8080/login"
               }
