@@ -1,6 +1,6 @@
 <template>
   <div class="row mx-auto">
-    <div class="col-lg-4">
+    <div class="col-lg-4 ipad">
       <img src="../../public/logos/icon.svg" alt="logo d'entreprise" title="logo d'entreprise" class="rounded mx-auto d-block w-75">
         <div class="row">
           <div class="col text-center">
@@ -59,5 +59,11 @@
 .bordure {
   border: 1px solid rgb(3, 70, 50);
   box-shadow: 5px 5px 5px rgb(1, 105, 74);
+}
+
+@media all and (max-width: 1024px) {
+  .ipad {
+    width: 100%;
+  }
 }
 </style>
