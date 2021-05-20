@@ -61,7 +61,7 @@
                 formData.append('content', this.content);
                 formData.append('image', this.file);
                 formData.append('UserId', localStorage.getItem('userId'));
-                axios.put('http://localhost:3000/api/message/update/' + sessionStorage.getItem('id'), formData, {
+                axios.put('http://localhost:3000/api/message/' + sessionStorage.getItem('id'), formData, {
                     headers: {
                         "Authorization": 'Bearer' + " " + localStorage.getItem('token')
                     }
