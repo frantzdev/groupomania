@@ -27,7 +27,7 @@
                 <div class="col-lg-3 bg"></div>
                                                 
                     <div class="col-lg-6 fontPolice">
-                        <img src="../../public/logos/capture.png" class="d-block w-100" alt="photo du siège d'entreprise" title="photo du siège d'entreprise">
+                        <img src="../../public/logos/capture.png" class="d-block w-100" alt="photo du siège d'entreprise">
 
                                                     <!-- fenetre alert pour la suppression du compte -->
                          <div class="alert alert-success mt-3 mx-3 d-flex justify-content-around" v-if="displayDeleteUser">                            
@@ -165,6 +165,7 @@ import NewCommentaire from '../components/NewCommentaire'
                             lastname: "",
                             idMessage: "",
                             idUser: "",
+                            isAdmin: "",
                             messageUserId: "",
                             createdAt: ""
 						}						

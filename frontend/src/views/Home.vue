@@ -1,7 +1,7 @@
 <template>
   <div class="row mx-auto">
     <div class="col-lg-4 ipad">
-      <img src="../../public/logos/icon.svg" alt="logo d'entreprise" title="logo d'entreprise" class="rounded mx-auto d-block w-75">
+      <img src="../../public/logos/icon.svg" alt="logo d'entreprise" class="rounded mx-auto d-block w-75">
         <div class="row">
           <div class="col text-center">
             <h1>{{ title }}</h1>
@@ -12,7 +12,7 @@
         <div class="col mx-auto">
           <div class="row my-3 justify-content-center">
             <div class="col text-center rounded">
-              <h3 class="my-5">{{text}}</h3>
+              <h2 class="my-5">{{text}}</h2>
               <div>
                 <router-link to="/signup">
                   <a class="btn col-6 my-3 button bordure" role="button" type="button"
@@ -57,8 +57,8 @@
 
 <style>
 .bordure {
-  border: 1px solid rgb(3, 70, 50);
-  box-shadow: 5px 5px 5px rgb(1, 105, 74);
+  border: 1px solid rgb(170, 9, 9);
+  box-shadow: 5px 5px 5px rgb(170, 9, 9);
 }
 
 @media all and (max-width: 1024px) {

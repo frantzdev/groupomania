@@ -1,6 +1,5 @@
 const models = require('../models');
 const fs = require('fs');
-const { imageCommentaire } = require('./commentaire');
 
 /*----------------verb GET ---------------*/
 exports.getAllMessage = async (req, res, next) => { 

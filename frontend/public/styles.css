@@ -1,19 +1,20 @@
 .bg {
-    background-color: #004D40;
+    background-color: #e2dddc;
 }
 
 .textColor {
   color: #ffffff;
+  background-color: #FD2D01;
 }
 
 .button {
-    background-color: #004D40;
-    color: #ffffff;
+    background-color: #FD2D01;
+    color: #000000;
     border-radius: 20px;
 }
 
 .button:hover {
-  background-color: #026b5a;
+  background-color: #FD2D01;
   color: #ffffff;
 }
 
