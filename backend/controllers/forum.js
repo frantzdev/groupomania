@@ -75,24 +75,43 @@ exports.createMessage = async (req, res, next) => {
 
 /*----------------verb PUT ---------------*/
   exports.updateMessage = async (req, res, next) => {
-    // console.log(req.params.id);
+    console.log(req.params);
     const updateValues = req.file ?
       {
       title: req.body.title,
       content: req.body.content,
       image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
       } : { title: req.body.title, content: req.body.content }
-    //let updateValues = {title: req.body.title, content: req.body.content, image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`}
-    await models.Message.update( updateValues, {where: { id: req.params.id}})
-      .then( () => res.status(201).json({ message: "Le message est modifié" }))
-      .catch(error => res.status(400).json({ error: "Erreur il n'est pas possible de modifier" }));
+
+    const where = {id: req.params.id};
+    if(req.params.user.isAdmin) {
+    } else {
+        where.userId = req.params.user.id,
+        where.id = req.params.id
+      }
+    try {
+      const message = await models.Message.update( updateValues, { where })
+      console.log(message[0]);
+      if (message[0]) 
+        return res.status(201).json({ message: "Le message est modifié" })
+      else 
+        return res.status(400).json({message: "Vous n'êtes pas autorisé à modifier ce message"})
+    } catch (error) {
+        return res.status(400).json({ error: "Erreur il n'est pas possible de modifier" })
+      }
   };
 
 /*-------------------verb PUT IMAGE---------------*/
 exports.imageMessage = async (req, res, next) => {
-  await models.Message.findOne({  //recherche du message
-    where: {id: req.params.id}
-  })
+  const where = {id: req.params.id};
+    if(req.params.user.isAdmin) {
+    } else {
+        where.userId = req.params.user.id,
+        where.id = req.params.id
+      }
+  await models.Message.findOne( //recherche du message
+    { where }
+  )
   .then(message => {              //puis dans ce message 
       const filename = message.image.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => { //suppression de l'image par son nom 
@@ -102,40 +121,46 @@ exports.imageMessage = async (req, res, next) => {
             image: null
           }
           console.log(updateImage)
-          models.Message.update( updateImage, {where: { id: req.params.id}})
+          models.Message.update( updateImage, { where })
       })
     .then(() => res.status(201).json({ message: 'Supprimer image du message'}))
-    .catch(error => res.status(400).json({ error }));
+    .catch(error => res.status(400).json({ error: "request error"}));
   }) 
-  .catch(error => res.status(500).json({ error }));
+  .catch(error => res.status(500).json({ error: "Vous n'êtes pas autorisé à modifier l'image" }));
 };  
 
 /*----------------verb DELETE ---------------*/
   exports.deleteMessage = async (req, res, next) => {  
+    const where = {id: req.params.id};
+    if(req.params.user.isAdmin) {
+    } else {
+        where.userId = req.params.user.id,
+        where.id = req.params.id
+      }
     // console.log(req.params.id)
-    await models.Message.findOne({  //recherche du message que l'on souhaite supprimer
-      where: {id: req.params.id}
-    })
+    await models.Message.findOne(  //recherche du message que l'on souhaite supprimer
+      { where }
+    )
     .then(message => {   //puis dans ce message 
       console.log(message.image)
       if(message.image) {   //si il y a un fichier
         const filename = message.image.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => { //suppression de l'image par son nom 
-        models.Message.destroy({      //suppression du message dans la base de donnée
-        where: {id: req.params.id ? req.params.id : req.query.id}
-        })
+        models.Message.destroy(      //suppression du message dans la base de donnée
+        { where }
+        )
         .then(() => res.status(200).json({ message: 'Supprimer un message avec une image'}))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => res.status(400).json({ error: "request error" }));
         });
       }            
       else    //sinon il n'y a pas de fichier
-        models.Message.destroy({      //suppression du message dans la base de donnée
-        where: {id: req.params.id ? req.params.id : req.query.id}
-        })
+        models.Message.destroy(      //suppression du message dans la base de donnée
+        { where }
+        )
         .then(() => res.status(200).json({ message: 'Supprimer un message sans image'}))
-        .catch(error => res.status(400).json({ error }));    
+        .catch(error => res.status(400).json({ error: "request error" }));    
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(500).json({ error: "Vous n'êtes pas autorisé à supprimer ce message" }));
   };  
 
    
