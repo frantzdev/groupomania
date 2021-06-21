@@ -25,6 +25,7 @@
               </div>
             </div>
           </div>
+          
 
           <footer class="footer py-1 my-5">
             <p>Groupomania Siege social 18 route des champs 48720 Salbinor</p>
@@ -57,8 +58,8 @@
 
 <style>
 .bordure {
-  border: 1px solid rgb(170, 9, 9);
-  box-shadow: 5px 5px 5px rgb(170, 9, 9);
+  border: 1px solid #004D40;
+  box-shadow: 5px 5px 5px #004D40;
 }
 
 @media all and (max-width: 1024px) {

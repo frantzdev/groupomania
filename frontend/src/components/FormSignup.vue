@@ -7,7 +7,7 @@
           <h2>{{ title }}</h2>
         </div>
       </div>
-
+      
 
       <div class="row">
         <div class="col-10 mx-auto">
@@ -149,4 +149,5 @@
   position: fixed;
   top: 200px;
 }
+
 </style>
