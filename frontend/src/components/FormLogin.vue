@@ -1,6 +1,7 @@
 <template>
   <div class="row mx-auto">
     <div class="col-lg-4">
+      <!-- <p class="test"><i class="fas fa-arrow-left"></i></p> -->
       <LogoForm :src="LogoForm"></LogoForm>
       <div class="row">
         <div class="col-lg-12 mb-3 text-center">
@@ -22,9 +23,11 @@
               <small></small>
             </div>
                 <a class="btn btn-lg bg fw-bold col-12 my-5 textColor" role="button" type="submit" title="valider la connexion" @click="connectLogin">{{text}}</a>            
-          </form>
-                <a aria-label="ouvre votre boite email pour nous écrire"
-								href="mailto:contact@Groupomania.com" title="Envoyer nous un e-mail">Contactez notre équipe</a>
+          </form>          
+                <router-link to="/">
+                  <a aria-label="Vous renvoie sur la page d'accueil"
+                  href="" title="Retourner sur la page d'accueil">Retour à l'accueil</a>
+                </router-link>         
         </div>
       </div>
     </div>
@@ -52,7 +55,7 @@
         text: "Connexion",
         title: "Connectez-vous",
         LogoForm: "/logos/icon-above-font.svg",
-        logoright: "/logos/icon-left-font-monochrome-black.svg",
+        logoright: "/logos/icon-left-font-monochrome-white.svg",
         email: "",
         password: "",
         errored: false
@@ -60,7 +63,7 @@
     },
     methods: {
         connectLogin() {
-            axios.post('http://localhost:3000/api/auth/login', {
+            axios.post( process.env.VUE_APP_API + '/api/auth/login', {
             email: this.email,
             password: this.password                    
             })
@@ -71,7 +74,7 @@
                 localStorage.setItem('userFirstname', response.data.userFirstname);
                 console.log(response)
                 this.errored = false;
-                window.location.href="http://localhost:8080/messages";
+                window.location.href= process.env.VUE_APP_URL + "/messages";
             })
             .catch(error => {
                 console.log(error);

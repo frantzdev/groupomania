@@ -11,7 +11,7 @@
 
       <div class="row">
         <div class="col-10 mx-auto">
-          <form class="my-3">
+          <form>
             <div>
               <label for="InputFirstName" class="form-label"></label>
               <input type="text" class="form-control" id="InputFirstName" placeholder="Prénom" v-model="firstname"
@@ -46,6 +46,12 @@
             </div>
               <a class="btn btn-lg bg fw-bold col-12 my-5 textColor" role="button" type="submit" title="envoyer le formulaire d'inscription" @click.prevent="submit()">{{text}}</a>
           </form>
+          <div class="text-center">
+              <router-link to="/">
+                    <a aria-label="Vous renvoie sur la page d'accueil"
+                    href="" title="Retourner sur la page d'accueil">Retour à l'accueil</a>
+              </router-link>
+          </div>     
         </div>
       </div>
     </div>
@@ -75,7 +81,7 @@
         text: "Soumettre",
         title: "Inscription",
         logoform: "/logos/icon-above-font.svg",
-        logoright: "/logos/icon-left-font-monochrome-black.svg",
+        logoright: "/logos/icon-left-font-monochrome-white.svg",
         firstname: "",
         lastname: "",
         email: "",
@@ -85,7 +91,7 @@
         emailBlured: false,
         passwordBlured: false,
         valid: false,
-        success: false
+        success: false,
       }
     },
 
@@ -93,20 +99,13 @@
       checkValidator() {
        if( this.validFirstname(this.firstname) && this.validLastname(this.lastname) && this.validEmail(this.email) && this.validPassword(this.password)){
           this.valid = true ;
-          // console.log(this.validFirstname(this.firstname))
-          // console.log(this.validFirstname(this.lastname))
-          // console.log(this.validEmail(this.email))
-          // console.log(this.validPassword(this.password))        
-          // console.log(this.valid)
         }
       },
 
       submit(){                   
         this.checkValidator();     
           if(this.valid){
-            console.log(this.valid);
-            console.log("envoi inscription");
-            axios.post('http://localhost:3000/api/auth/signup', {
+            axios.post( process.env.VUE_APP_API + '/api/auth/signup', {
             firstname: this.firstname,
             lastname: this.lastname,
             email: this.email,
@@ -116,7 +115,7 @@
               console.log(response);
               this.success = true;
               function displaySuccess() {
-                window.location.href="http://localhost:8080/login"
+                window.location.href= process.env.VUE_APP_URL + "/login"
               }
               setTimeout(displaySuccess, 3000);
             })          

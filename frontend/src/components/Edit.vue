@@ -61,7 +61,7 @@
                 formData.append('content', this.content);
                 formData.append('image', this.file);
                 formData.append('UserId', localStorage.getItem('userId'));
-                axios.put('http://localhost:3000/api/message/' + sessionStorage.getItem('id'), formData, {
+                axios.put( process.env.VUE_APP_API + '/api/message/' + sessionStorage.getItem('id'), formData, {
                     headers: {
                         "Authorization": 'Bearer' + " " + localStorage.getItem('token')
                     }
@@ -76,7 +76,7 @@
             },
         /*Methode PUT , suppression de l'image*/
             delImageMessage() {             
-                axios.put('http://localhost:3000/api/message/image/' + sessionStorage.getItem('id'), 
+                axios.put( process.env.VUE_APP_API + '/api/message/image/' + sessionStorage.getItem('id'), 
                 {
                 title: this.title,
                 content: this.content,
@@ -92,12 +92,10 @@
 
         /* Methode GET, recuperation d'un message par son ID*/
             getMessage() {
-                axios.get('http://localhost:3000/api/message/' + sessionStorage.getItem('id'), {
+                axios.get( process.env.VUE_APP_API + '/api/message/' + sessionStorage.getItem('id'), {
                     headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
                 })
                 .then(response => {  
-                    // console.log(response.data.id);
-                    // console.log(this);
                     this.title = response.data.title;
                     this.content = response.data.content;
                     this.file = response.data.image;
@@ -107,7 +105,6 @@
 
             handleFileUpload(event) {
                 this.file = event.target.files[0];
-                // console.log(this.file);
             },
                         
             toggleModaleEdits() {  

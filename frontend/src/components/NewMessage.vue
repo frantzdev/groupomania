@@ -52,7 +52,7 @@
                 formData.append('content', this.content);
                 formData.append('image', this.file);
                 formData.append('UserId', localStorage.getItem('userId'));
-                axios.post('http://localhost:3000/api/message/', formData, {
+                axios.post( process.env.VUE_APP_API + '/api/message/', formData, {
                     headers: {
                         "Authorization": 'Bearer' + " " + localStorage.getItem('token')
                     }

@@ -187,7 +187,7 @@ import NewCommentaire from '../components/NewCommentaire'
         },
         mounted() {            
                     /* Methode GET RECUPERATION DES MESSAGES*/
-            axios.get('http://localhost:3000/api/message', {
+            axios.get( process.env.VUE_APP_API + '/api/message', {
             headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
             .then(response => { 
@@ -195,19 +195,16 @@ import NewCommentaire from '../components/NewCommentaire'
                 this.idStorage = localStorage.getItem('userId');
                 this.isAdmin = localStorage.getItem('isAdmin');
                 this.userFirstname = localStorage.getItem('userFirstname');
-                console.log(this.dataBase);
-                console.log(this.idStorage)
                 sessionStorage.clear();
             })
             .catch(error => console.log(error)); 
             
                     /* Methode GET RECUPERATION DES COMMENTAIRES*/
-            axios.get('http://localhost:3000/api/commentaire', {
+            axios.get( process.env.VUE_APP_API +'/api/commentaire', {
             headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
             .then(response => { 
-                this.dataBaseCommentaire = response.data;
-                console.log(this.dataBaseCommentaire);                
+                this.dataBaseCommentaire = response.data;               
             })
             .catch(error => console.log(error));        
         },
@@ -236,7 +233,7 @@ import NewCommentaire from '../components/NewCommentaire'
                                 /* Methode DELETE SUPPRESSION D'UN MESSAGE*/
             deleteMessage(recoverItemId) {
                 let deleteIdMessage = recoverItemId
-                axios.delete('http://localhost:3000/api/message/' + deleteIdMessage, {
+                axios.delete( process.env.VUE_APP_API + '/api/message/' + deleteIdMessage, {
                 headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
             .then(response => {
@@ -256,7 +253,7 @@ import NewCommentaire from '../components/NewCommentaire'
                 this.toggleModaleEditsCommentaire()
                 let getIdCommentaire = recoverItemId
                 sessionStorage.setItem('idCommentaire', getIdCommentaire)
-                axios.get('http://localhost:3000/api/commentaire/' + sessionStorage.getItem('idCommentaire'), {
+                axios.get( process.env.VUE_APP_API + '/api/commentaire/' + sessionStorage.getItem('idCommentaire'), {
                     headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
                 })
                 .then(response => {  
@@ -274,7 +271,7 @@ import NewCommentaire from '../components/NewCommentaire'
                 formData.append('image', this.editfileCommentaire);
                 formData.append('idMessage', this.idMessage);
                 formData.append('UserId', localStorage.getItem('userId'));
-                axios.put('http://localhost:3000/api/commentaire/' + sessionStorage.getItem('idCommentaire'), formData, {
+                axios.put(process.env.VUE_APP_API + '/api/commentaire/' + sessionStorage.getItem('idCommentaire'), formData, {
                 headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
             .then(response => {
@@ -285,7 +282,7 @@ import NewCommentaire from '../components/NewCommentaire'
             },
                                 /*supprimer une image dans le commentaire*/
             delImageCommentaire() {             
-               axios.put('http://localhost:3000/api/commentaire/image/' + sessionStorage.getItem('idCommentaire'), 
+               axios.put(process.env.VUE_APP_API + '/api/commentaire/image/' + sessionStorage.getItem('idCommentaire'), 
                 {
                 text: this.texte,
                 image: this.editfileCommentaire
@@ -302,7 +299,7 @@ import NewCommentaire from '../components/NewCommentaire'
                                  /* suppression d'un commentaire*/
             deleteCommentaire(recoverIdCommentaire) {
                 let deleteIdCommentaire = recoverIdCommentaire
-                axios.delete('http://localhost:3000/api/commentaire/' + deleteIdCommentaire, {
+                axios.delete(process.env.VUE_APP_API + '/api/commentaire/' + deleteIdCommentaire, {
                 headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
             .then(response => {
@@ -314,7 +311,7 @@ import NewCommentaire from '../components/NewCommentaire'
 
                         /*suppression d'un compte utilisateur*/
             confirmDeleteUser() {
-                axios.delete('http://localhost:3000/api/auth/' + localStorage.getItem('userId'), {
+                axios.delete(process.env.VUE_APP_API + '/api/auth/' + localStorage.getItem('userId'), {
                 headers: {"Authorization": 'Bearer' + " " + localStorage.getItem('token')}
             })
             .then(response => {
@@ -337,7 +334,6 @@ import NewCommentaire from '../components/NewCommentaire'
                                                 
              handleFileUpload(event) {
                 this.editfileCommentaire = event.target.files[0];
-                console.log(this.editfileCommentaire)
             }
         }
     }
